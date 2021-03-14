@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/orange_gradient_top_down"
+    tools:context=".RegisterActivity">
+
+    <ImageView
+        android:id="@+id/register_imageView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@android:drawable/ic_menu_gallery" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="1dp"
+        android:hint="First name"
+        android:id="@+id/register_firstname"
+        android:layout_below="@+id/register_imageView"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="1dp"
+        android:hint="Last name"
+        android:layout_below="@+id/register_firstname"
+        android:id="@+id/register_lastname"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="1dp"
+        android:hint="Phone number"
+        android:layout_below="@+id/register_lastname"
+        android:id="@+id/register_phonenumber"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="1dp"
+        android:hint="Username"
+        android:layout_below="@+id/register_phonenumber"
+        android:id="@+id/register_username"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="1dp"
+        android:hint="Email address"
+        android:layout_below="@+id/register_username"
+        android:id="@+id/register_emailaddress"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="1dp"
+        android:hint="Password"
+        android:layout_below="@+id/register_emailaddress"
+        android:id="@+id/register_password"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/register_btn"
+        android:text="Register"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="1dp"
+        android:layout_below="@+id/register_password"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You have an account? Login here"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="1dp"
+        android:layout_below="@+id/register_btn"
+        android:id="@+id/register_gotologin_textview"
+        android:textAlignment="center"/>
+
+
+
+
+
+</RelativeLayout>

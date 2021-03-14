@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "342886732968",
+    "project_id": "wifinder-894d0",
+    "storage_bucket": "wifinder-894d0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:342886732968:android:cf3e5ff353cfdfe311de9d",
+        "android_client_info": {
+          "package_name": "rs.elfak.mosis.katarina.wifinder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "342886732968-08qgh5qsqasg8mg6f7g25dbqecvjgssf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "rs.elfak.mosis.katarina.wifinder",
+            "certificate_hash": "f9e7fd860cfb173de3e841c6afb8466af98c7860"
+          }
+        },
+        {
+          "client_id": "342886732968-pmip2hmd2qrteoj4mov21b50oj4nklu4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADNhpjf8rkWDC0MH3v8mgGZs-xZodTg6c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "342886732968-pmip2hmd2qrteoj4mov21b50oj4nklu4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
