@@ -1,9 +1,12 @@
 package rs.elfak.mosis.katarina.wifinder;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -33,6 +36,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ActionBar actionBar;
+        actionBar = getSupportActionBar();
+        ColorDrawable colorDrawable
+                = new ColorDrawable(Color.parseColor("#EEB245"));
+        actionBar.setBackgroundDrawable(colorDrawable);
+
         fAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -49,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
         password = findViewById(R.id.login_password);
         loginBtn = findViewById(R.id.login_btn);
         registerTextView = findViewById(R.id.login_gotoregistration_textview);
+
+        loginBtn.setBackgroundColor(Color.parseColor("#EEB245"));
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -46,7 +46,7 @@ public class AddNewObjectOnMapActivity extends AppCompatActivity {
         currentUserID = fAuth.getCurrentUser().getUid();
         currentUserReference = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID);
         newObjectReference = FirebaseDatabase.getInstance().getReference().child("WiFiSuggestions");
-        wifiReference = FirebaseDatabase.getInstance().getReference().child("WifiPasswords").child(currentUserID);
+        wifiReference = FirebaseDatabase.getInstance().getReference().child("WifiPasswords");
 
         currentUserReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -73,7 +73,8 @@ public class AddNewObjectOnMapActivity extends AppCompatActivity {
                 {
                     String key = newObjectReference.push().getKey();
                     newObjectReference.child(key).setValue(new WiFiPasswordSuggestion(nameOfLocationString, new CurrentLocation(latitudeOfLocation, longitudeOfLocation), passwordSuggestionString, currentUserID));
-                    wifiReference.child(key).setValue(new WiFiPassword(nameOfLocationString, new CurrentLocation(latitudeOfLocation, longitudeOfLocation), passwordSuggestionString));
+                    String key2 = wifiReference.push().getKey();
+                    wifiReference.child(key2).setValue(new WiFiPassword(nameOfLocationString, new CurrentLocation(latitudeOfLocation, longitudeOfLocation), passwordSuggestionString, currentUserID));
                     Toast.makeText(AddNewObjectOnMapActivity.this, "Suggestion is added successfully!", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(AddNewObjectOnMapActivity.this, MapsActivity.class));
                     finish();

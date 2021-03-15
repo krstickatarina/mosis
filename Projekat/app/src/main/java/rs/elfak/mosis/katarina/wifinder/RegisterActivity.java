@@ -2,6 +2,7 @@ package rs.elfak.mosis.katarina.wifinder;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
@@ -9,6 +10,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -56,6 +59,12 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        ActionBar actionBar;
+        actionBar = getSupportActionBar();
+        ColorDrawable colorDrawable
+                = new ColorDrawable(Color.parseColor("#EEB245"));
+        actionBar.setBackgroundDrawable(colorDrawable);
+
         firstName = findViewById(R.id.register_firstname);
         lastName = findViewById(R.id.register_lastname);
         username = findViewById(R.id.register_username);
@@ -66,6 +75,8 @@ public class RegisterActivity extends AppCompatActivity {
         registerBtn = findViewById(R.id.register_btn);
         loginTextView = findViewById(R.id.register_gotologin_textview);
         uploadImage = findViewById(R.id.register_imageView);
+
+        registerBtn.setBackgroundColor(Color.parseColor("#EEB245"));
 
         fAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Users");

@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.app.ActionBar;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -25,10 +26,13 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -66,6 +70,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener, GoogleMap.OnMarkerClickListener {
 
@@ -98,6 +103,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     //Adding objects
     private ImageButton addObjectImageBtn;
 
+    //Animate camera to my location
+    private ImageButton showMyLocation;
+
+    //Search objects
+    private ImageButton searchObjectsOnMap;
+    private RelativeLayout relativeLayoutForSearchingPlace;
+    private EditText editTextNameOfAPlace;
+    private Button findPlace;
+
+    //Go back
+    private ImageButton imageButtonGoBack;
+
+    //Log out
+    private ImageButton imageButtonLogOut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +126,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        //Creating action bar
+
 
         locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
 
@@ -149,6 +171,68 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //Reading objects
         wifiPasswordsReference = FirebaseDatabase.getInstance().getReference().child("WifiPasswords");
+
+        //Animating camera to show my location
+        showMyLocation = findViewById(R.id.imageBtn_showMyLocation);
+
+        showMyLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentUserLocation.getLatitude(), currentUserLocation.getLongitude()), 16));
+            }
+        });
+
+
+        //Search objects on map
+        searchObjectsOnMap = findViewById(R.id.imageBtn_searchObjectsOnMap);
+        relativeLayoutForSearchingPlace = findViewById(R.id.relativeLayout_searchPlace);
+        editTextNameOfAPlace = findViewById(R.id.editText_insertNameOfAPlace);
+        findPlace = findViewById(R.id.btn_findPlaceByName);
+        //findPlace.setBackgroundColor(Color.parseColor("#EEB245"));
+
+        searchObjectsOnMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                relativeLayoutForSearchingPlace.setVisibility(View.VISIBLE);
+            }
+        });
+
+        findPlace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String nameOfAPlaceString = editTextNameOfAPlace.getText().toString();
+                if(nameOfAPlaceString.isEmpty())
+                {
+                    editTextNameOfAPlace.setError("You have to enter name of a place");
+                    editTextNameOfAPlace.requestFocus();
+                }
+                else
+                {
+                    findPlaceByItsName(nameOfAPlaceString);
+                }
+            }
+        });
+
+        //Go back
+        imageButtonGoBack = findViewById(R.id.imageBtn_goBack);
+        imageButtonGoBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MapsActivity.this, HomeActivity.class));
+            }
+        });
+
+        //Log out
+        imageButtonLogOut = findViewById(R.id.imageBtn_logOut);
+        imageButtonLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                finish();
+            }
+        });
+
     }
 
     private void createNotificationChannel()
@@ -495,15 +579,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 if(snapshot.exists())
-                    for(DataSnapshot s:snapshot.getChildren())
-                    {
-                        showAllWifiPasswordsOnMap(s.getValue(WiFiPassword.class), snapshot.getKey());
-                    }
+                {
+                    if(snapshot.getValue(WiFiPassword.class).getUsersThatKnowsThisPasswordID().contains(currentUserID))
+                        showWifiPasswordAsKnownToCurrentUser(snapshot.getValue(WiFiPassword.class), snapshot.getKey());
+                    else
+                        showWifiPasswordAsUnknownToCurrentUser(snapshot.getValue(WiFiPassword.class), snapshot.getKey());
+                }
             }
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
+                if(snapshot.exists())
+                {
+                    if(snapshot.getValue(WiFiPassword.class).getUsersThatKnowsThisPasswordID().contains(currentUserID))
+                        showWifiPasswordAsKnownToCurrentUser(snapshot.getValue(WiFiPassword.class), snapshot.getKey());
+                    else
+                        showWifiPasswordAsUnknownToCurrentUser(snapshot.getValue(WiFiPassword.class), snapshot.getKey());
+                }
             }
 
             @Override
@@ -523,124 +615,66 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
-    private void showAllWifiPasswordsOnMap(WiFiPassword wifiPassword, String key)
+    private void showWifiPasswordAsUnknownToCurrentUser(WiFiPassword wiFiPassword, String wiFiPasswordKey)
     {
-        currentUserFriendshipsReference.orderByKey().equalTo(key).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists())
-                {
-                    showWifiPasswordAsKnownToCurrentUser(wifiPassword, key, snapshot.getKey());
-                }
-                else
-                {
-                    if(key.equals(currentUserID))
-                        showWifiPasswordAsKnownToCurrentUser(wifiPassword, key, snapshot.getKey());
-                    else
-                        showWifiPasswordAsNotKnownToCurrentUser(wifiPassword, key, snapshot.getKey());
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-
-    private void showWifiPasswordAsNotKnownToCurrentUser(WiFiPassword wifiPassword, String key, String wifiPasswordKey)
-    {
-        Marker marker = mMap.addMarker(new MarkerOptions().position(new LatLng(wifiPassword.getLocation().getLatitude(), wifiPassword.getLocation().getLongitude())
-                                                        ).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-                                                        );
-        currentUserReference.getParent().orderByKey().equalTo(key).addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                if(snapshot.exists())
-                {
-                    if(snapshot.getValue(User.class).getRank().equals("Pocetnik"))
-                        marker.setTitle("Costs 50 tokens");
-                    else if(snapshot.getValue(User.class).getRank().equals("Znalac"))
-                        marker.setTitle("Costs 100 tokens");
-                    else
-                        marker.setTitle("Costs 200 tokens");
-                }
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                if(snapshot.exists())
-                {
-                    if(snapshot.getValue(User.class).getRank().equals("Pocetnik"))
-                        marker.setSnippet("Costs 50 tokens");
-                    else if(snapshot.getValue(User.class).getRank().equals("Znalac"))
-                        marker.setSnippet("Costs 100 tokens");
-                    else
-                        marker.setSnippet("Costs 200 tokens");
-                }
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
+        Marker marker1 = mapMarkers.get(wiFiPasswordKey);
+        if(marker1 != null)
+        {
+            marker1.remove();
+            mapMarkers.remove(wiFiPasswordKey);
+        }
+        Marker marker = mMap.addMarker(new MarkerOptions().position(new LatLng(wiFiPassword.getLocation().getLatitude(), wiFiPassword.getLocation().getLongitude()))
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                .title("Costs 50 tokens"));
         mMap.setOnMarkerClickListener(MapsActivity.this);
-        /*mMap.setOnInfoWindowLongClickListener(new GoogleMap.OnInfoWindowLongClickListener() {
+        mMap.setOnInfoWindowLongClickListener(new GoogleMap.OnInfoWindowLongClickListener() {
             @Override
             public void onInfoWindowLongClick(Marker marker) {
                 if(marker.getTitle().equals("Costs 50 tokens"))
                 {
-                    checkIfUserCanBuyWifiPassword(marker, 50, key);
-                }
-                else if(marker.getTitle().equals("Costs 100 tokens"))
-                {
-                    checkIfUserCanBuyWifiPassword(marker, 100, key);
-                }
-                else if(marker.getTitle().equals("Costs 200 tokens"))
-                {
-                    checkIfUserCanBuyWifiPassword(marker, 200, key);
+                    checkIfCurrentUserCanBuyThisPassword(wiFiPassword, wiFiPasswordKey);
                 }
             }
-        });*/
-        mapMarkers.put(wifiPasswordKey, marker);
+        });
+        mapMarkers.put(wiFiPasswordKey, marker);
     }
 
-    private void showWifiPasswordAsKnownToCurrentUser(WiFiPassword wifiPassword, String key, String wifiPasswordKey)
+    private void showWifiPasswordAsKnownToCurrentUser(WiFiPassword wiFiPassword, String wiFiPasswordKey)
     {
-        Marker marker = mMap.addMarker(new MarkerOptions().position(new LatLng(wifiPassword.getLocation().getLatitude(), wifiPassword.getLocation().getLongitude()))
-        .title("Known").snippet(wifiPassword.getWifiPassword())
-        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+        Marker marker = mMap.addMarker(new MarkerOptions().position(new LatLng(wiFiPassword.getLocation().getLatitude(), wiFiPassword.getLocation().getLongitude()))
+                                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+                                                        .title(wiFiPassword.getWifiPassword()));
         mMap.setOnMarkerClickListener(MapsActivity.this);
-        mapMarkers.put(wifiPasswordKey, marker);
+        mapMarkers.put(wiFiPasswordKey, marker);
     }
-/*
-    private void checkIfUserCanBuyWifiPassword(Marker marker, int costs, String id)
+
+    private void checkIfCurrentUserCanBuyThisPassword(WiFiPassword wiFiPassword, String wiFiPasswordKey)
     {
-        currentUserReference.getParent().addValueEventListener(new ValueEventListener() {
+        currentUserReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists())
                 {
-                    if(snapshot.getValue(User.class).getNumberOfTokens()<=costs)
+                    if(snapshot.getValue(User.class).getNumberOfTokens()<=-50)
                     {
-                        buyWifiPasswordForUser(snapshot.getValue(User.class), costs, marker, id);
+                        User newUser = new User(snapshot.getValue(User.class).getFirstName(),
+                                snapshot.getValue(User.class).getLastName(),
+                                snapshot.getValue(User.class).getUsername(),
+                                snapshot.getValue(User.class).getEmailAddress(),
+                                snapshot.getValue(User.class).getPassword(),
+                                snapshot.getValue(User.class).getPhoneNumber(),
+                                snapshot.getValue(User.class).getNumberOfTokens()+50,
+                                snapshot.getValue(User.class).getRank());
+                        currentUserReference.setValue(newUser);
+                        addTokensToTheOtherUser(wiFiPassword, wiFiPasswordKey);
+                        addUserToListOfUsersThatKnowsPassword(wiFiPassword, wiFiPasswordKey);
+                        Toast.makeText(MapsActivity.this, "You have successfully unlocked this password!", Toast.LENGTH_SHORT).show();
+                        Marker marker = mapMarkers.get(wiFiPasswordKey);
+                        marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                        marker.setTitle(wiFiPassword.getWifiPassword());
                     }
                     else
-                    {
-                        Toast.makeText(MapsActivity.this, "You don't have enough tokens to buy this password.", Toast.LENGTH_SHORT).show();
-                    }
+                        Toast.makeText(MapsActivity.this, "You don't have enough tokens to unlock this password!", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -651,26 +685,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
-    private void buyWifiPasswordForUser(User value, int costs, Marker marker, String id)
+    private void addUserToListOfUsersThatKnowsPassword(WiFiPassword wiFiPassword, String wiFiPasswordKey)
     {
-        currentUserReference.getParent().child(currentUserID).child("numberOfTokens").setValue(value.getNumberOfTokens()+costs);
-        marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-        setTitleForDiscoveredMarker(marker);
-        addTokensToOtheruser(id, costs);
+        wiFiPassword.getUsersThatKnowsThisPasswordID().add(currentUserID);
+        wifiPasswordsReference.child(wiFiPasswordKey).setValue(wiFiPassword);
     }
 
-    private void setTitleForDiscoveredMarker(Marker marker)
+    private void addTokensToTheOtherUser(WiFiPassword wiFiPassword, String wiFiPasswordKey)
     {
-
-    }
-
-    private void addTokensToOtheruser(String id, int costs)
-    {
-        currentUserReference.getParent().child(id).child("numberOfTokens").addValueEventListener(new ValueEventListener() {
+        currentUserReference.getParent().child(wiFiPassword.getUserThatDiscoveredThisPasswordID()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                //Toast.makeText(MapsActivity.this, ""+id, Toast.LENGTH_SHORT).show();
-                currentUserReference.getParent().child(id).child("numberOfTokens").setValue(snapshot.getValue(Integer.class)-costs);
+                if(snapshot.exists())
+                {
+                    User newUser = new User(snapshot.getValue(User.class).getFirstName(),
+                            snapshot.getValue(User.class).getLastName(),
+                            snapshot.getValue(User.class).getUsername(),
+                            snapshot.getValue(User.class).getEmailAddress(),
+                            snapshot.getValue(User.class).getPassword(),
+                            snapshot.getValue(User.class).getPhoneNumber(),
+                            snapshot.getValue(User.class).getNumberOfTokens()-50,
+                            snapshot.getValue(User.class).getRank());
+                    currentUserReference.getParent().child(wiFiPassword.getUserThatDiscoveredThisPasswordID()).setValue(newUser);
+                }
             }
 
             @Override
@@ -678,5 +715,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         });
-    }*/
+    }
+
+    private void findPlaceByItsName(String nameOfAPlace)
+    {
+        wifiPasswordsReference.orderByChild("name").equalTo(nameOfAPlace).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists())
+                {
+                    for(DataSnapshot s: snapshot.getChildren())
+                    {
+                        Toast.makeText(MapsActivity.this, ""+s, Toast.LENGTH_SHORT).show();
+                        relativeLayoutForSearchingPlace.setVisibility(View.GONE);
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(s.getValue(WiFiPassword.class).getLocation().getLatitude(), s.getValue(WiFiPassword.class).getLocation().getLongitude()), 16));
+                    }
+                }
+                else
+                {
+                    Toast.makeText(MapsActivity.this, "Place you are searching for isn't discovered yet!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+
 }
