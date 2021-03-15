@@ -1,5 +1,7 @@
 package rs.elfak.mosis.katarina.wifinder;
 
+import com.google.android.gms.maps.model.LatLng;
+
 public class User {
     private String firstName;
     private String lastName;
@@ -9,6 +11,7 @@ public class User {
     private String phoneNumber;
     private int numberOfTokens;
     private String rank;
+    private CurrentLocation myLocation;
 
     public User()
     {
@@ -24,7 +27,7 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.numberOfTokens = numberOfTokens;
         this.rank = rank;
-
+        this.myLocation = new CurrentLocation();
     }
 
     public String getFirstName()
@@ -105,6 +108,16 @@ public class User {
     public void setRank()
     {
         this.rank = rank;
+    }
+
+    public CurrentLocation getMyLocation()
+    {
+        return this.myLocation;
+    }
+
+    public void setMyLocation(CurrentLocation myLocation)
+    {
+        this.myLocation = myLocation;
     }
 
 
