@@ -7,12 +7,29 @@
     android:background="@drawable/orange_gradient_top_down"
     tools:context=".AddNewObjectOnMapActivity">
 
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/imgBtn_goBackToMap"
+        android:src="@drawable/ic_baseline_arrow_back_24"/>
+
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="250dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/imgBtn_goBackToMap"
+        android:id="@+id/addNewObject_logOut"
+        android:src="@drawable/ic_baseline_logout_24"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:textSize="20dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="70dp"
         android:textAlignment="center"
         android:text="Add new object"
         android:id="@+id/textView_addNewObject"
@@ -23,6 +40,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/editText_latitudeOfObject"
         android:layout_below="@+id/textView_addNewObject"
+        android:enabled="false"
+        android:focusable="false"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"/>
@@ -32,6 +51,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/editText_longitudeOfObject"
         android:layout_below="@+id/editText_latitudeOfObject"
+        android:enabled="false"
+        android:focusable="false"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"/>
 

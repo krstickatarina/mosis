@@ -26,6 +26,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -76,7 +77,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
 
-    private DatabaseReference currentUserReference, currentUserFriendshipsReference, wifiPasswordsReference;
+    private DatabaseReference currentUserReference, currentUserFriendshipsReference, wifiPasswordsReference, wifiPasswordSuggestionsReference;
     private StorageReference storageReference;
     private String currentUserID;
     private FirebaseAuth fAuth;
@@ -117,6 +118,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     //Log out
     private ImageButton imageButtonLogOut;
+
+    //Admin
+    private String adminID = "npGXbgIrWsfyioefTknKcihx1Qc2";
+    private RelativeLayout relativeLayoutForAcceptingSuggestion;
+    private Button acceptSuggestion;
+    private Button denySuggestion;
+    private WiFiPasswordSuggestion wiFiPasswordSuggestionClicked;
+    private String wiFiPasswordSuggestionClickedKey;
+    private Marker markerClicked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -188,7 +198,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         relativeLayoutForSearchingPlace = findViewById(R.id.relativeLayout_searchPlace);
         editTextNameOfAPlace = findViewById(R.id.editText_insertNameOfAPlace);
         findPlace = findViewById(R.id.btn_findPlaceByName);
-        //findPlace.setBackgroundColor(Color.parseColor("#EEB245"));
 
         searchObjectsOnMap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -233,6 +242,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
+
+        //Admin
+        wifiPasswordSuggestionsReference = FirebaseDatabase.getInstance().getReference().child("WiFiSuggestions");
+        relativeLayoutForAcceptingSuggestion = findViewById(R.id.relativeLayout_suggestedPassword);
+        acceptSuggestion = findViewById(R.id.btn_acceptSuggestion);
+        denySuggestion = findViewById(R.id.btn_denySuggestion);
+
     }
 
     private void createNotificationChannel()
@@ -253,9 +269,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        checkPermissionForLocationUpdates();
-        listenToUsersChanges();
-        listenToWifiPasswordsChanges();
+        if(currentUserID.equals(adminID))
+        {
+            showAllWifiSuggestions();
+        }
+        else
+        {
+            checkPermissionForLocationUpdates();
+            listenToUsersChanges();
+            listenToWifiPasswordsChanges();
+        }
     }
 
     @Override
@@ -627,6 +650,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
                 .title("Costs 50 tokens"));
         mMap.setOnMarkerClickListener(MapsActivity.this);
+
         mMap.setOnInfoWindowLongClickListener(new GoogleMap.OnInfoWindowLongClickListener() {
             @Override
             public void onInfoWindowLongClick(Marker marker) {
@@ -636,6 +660,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         });
+
         mapMarkers.put(wiFiPasswordKey, marker);
     }
 
@@ -744,5 +769,122 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
+
+
+    //Admin
+
+    private void showAllWifiSuggestions()
+    {
+        wifiPasswordSuggestionsReference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                if(snapshot.exists())
+                {
+                    Marker marker = mMap.addMarker(new MarkerOptions().position(new LatLng(snapshot.getValue(WiFiPasswordSuggestion.class).getLocation().getLatitude(), snapshot.getValue(WiFiPasswordSuggestion.class).getLocation().getLongitude()))
+                            .title("Suggestion").snippet(snapshot.getValue(WiFiPasswordSuggestion.class).getWiFiPasswordSuggestion())
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                    mapMarkers.put(snapshot.getKey(), marker);
+                    mMap.setOnMarkerClickListener(MapsActivity.this);
+                    mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                        @Override
+                        public void onInfoWindowClick(Marker marker) {
+                            findThePlaceAndDeleteIt(marker, false);
+                        }
+                    });
+
+                    mMap.setOnInfoWindowLongClickListener(new GoogleMap.OnInfoWindowLongClickListener() {
+                        @Override
+                        public void onInfoWindowLongClick(Marker marker) {
+                            findThePlaceAndDeleteIt(marker, true);
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void findThePlaceAndDeleteIt(Marker marker, boolean justDeleteItOrNot)
+    {
+        wifiPasswordSuggestionsReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists())
+                {
+                    CurrentLocation locationOfMarker = new CurrentLocation(marker.getPosition().latitude, marker.getPosition().longitude);
+                    for(DataSnapshot s: snapshot.getChildren())
+                    {
+                        if(s.getValue(WiFiPasswordSuggestion.class).getLocation().getLatitude() == locationOfMarker.getLatitude()
+                        && s.getValue(WiFiPasswordSuggestion.class).getLocation().getLongitude() == locationOfMarker.getLongitude())
+                        {
+                            Toast.makeText(MapsActivity.this, "BU"+s.getKey(), Toast.LENGTH_SHORT).show();
+
+                            wifiPasswordSuggestionsReference.child(s.getKey()).removeValue();
+                            marker.remove();
+                            mapMarkers.remove(s.getKey());
+                            if(!justDeleteItOrNot)
+                            {
+                                String key = wifiPasswordsReference.push().getKey();
+                                wifiPasswordsReference.child(key).setValue(new WiFiPassword(s.getValue(WiFiPasswordSuggestion.class).getName(),
+                                                                                new CurrentLocation(s.getValue(WiFiPasswordSuggestion.class).getLocation().getLatitude(), s.getValue(WiFiPasswordSuggestion.class).getLocation().getLongitude()),
+                                                                                s.getValue(WiFiPasswordSuggestion.class).getWiFiPasswordSuggestion(),
+                                                                                s.getValue(WiFiPasswordSuggestion.class).getUserSuggesterID()));
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void addTokensToUserSuggester(String userSuggesterID)
+    {
+        currentUserReference.getParent().child(userSuggesterID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists())
+                {
+                    User newUser = new User(snapshot.getValue(User.class).getFirstName(),
+                            snapshot.getValue(User.class).getLastName(),
+                            snapshot.getValue(User.class).getUsername(),
+                            snapshot.getValue(User.class).getEmailAddress(),
+                            snapshot.getValue(User.class).getPassword(),
+                            snapshot.getValue(User.class).getPhoneNumber(),
+                            snapshot.getValue(User.class).getNumberOfTokens()-50,
+                            snapshot.getValue(User.class).getRank());
+                    currentUserReference.getParent().child(userSuggesterID).setValue(newUser);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
 }

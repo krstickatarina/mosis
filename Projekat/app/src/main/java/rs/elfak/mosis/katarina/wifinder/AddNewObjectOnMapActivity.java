@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,12 +23,14 @@ import com.google.type.LatLng;
 
 public class AddNewObjectOnMapActivity extends AppCompatActivity {
 
-    EditText editTextLongitude, editTextLatitude, editTextName, editTextPassword;
-    Button btnAddObject;
-    DatabaseReference currentUserReference, newObjectReference, wifiReference;
-    FirebaseAuth fAuth;
-    String currentUserID;
-    User currentUser;
+    private EditText editTextLongitude, editTextLatitude, editTextName, editTextPassword;
+    private Button btnAddObject;
+    private DatabaseReference currentUserReference, newObjectReference;
+    private FirebaseAuth fAuth;
+    private String currentUserID;
+    private User currentUser;
+
+    private ImageButton goBack, logOut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +49,6 @@ public class AddNewObjectOnMapActivity extends AppCompatActivity {
         currentUserID = fAuth.getCurrentUser().getUid();
         currentUserReference = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID);
         newObjectReference = FirebaseDatabase.getInstance().getReference().child("WiFiSuggestions");
-        wifiReference = FirebaseDatabase.getInstance().getReference().child("WifiPasswords");
 
         currentUserReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -73,8 +75,6 @@ public class AddNewObjectOnMapActivity extends AppCompatActivity {
                 {
                     String key = newObjectReference.push().getKey();
                     newObjectReference.child(key).setValue(new WiFiPasswordSuggestion(nameOfLocationString, new CurrentLocation(latitudeOfLocation, longitudeOfLocation), passwordSuggestionString, currentUserID));
-                    String key2 = wifiReference.push().getKey();
-                    wifiReference.child(key2).setValue(new WiFiPassword(nameOfLocationString, new CurrentLocation(latitudeOfLocation, longitudeOfLocation), passwordSuggestionString, currentUserID));
                     Toast.makeText(AddNewObjectOnMapActivity.this, "Suggestion is added successfully!", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(AddNewObjectOnMapActivity.this, MapsActivity.class));
                     finish();
@@ -93,6 +93,24 @@ public class AddNewObjectOnMapActivity extends AppCompatActivity {
                     }
                     Toast.makeText(AddNewObjectOnMapActivity.this, "Please enter all requested fields!", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        goBack = findViewById(R.id.imgBtn_goBackToMap);
+        goBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(AddNewObjectOnMapActivity.this, MapsActivity.class));
+            }
+        });
+
+        logOut = findViewById(R.id.addNewObject_logOut);
+        logOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(AddNewObjectOnMapActivity.this, MainActivity.class));
+                finish();
             }
         });
     }

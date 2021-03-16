@@ -112,4 +112,41 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="250dp"
+        android:layout_marginLeft="50dp"
+        android:visibility="gone"
+        android:id="@+id/relativeLayout_suggestedPassword"
+        android:layout_marginRight="50dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:id="@+id/textView_suggestedPassword"
+            android:text="Accept or deny this suggestion"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Accept"
+            android:layout_below="@+id/textView_suggestedPassword"
+            android:id="@+id/btn_acceptSuggestion"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_toRightOf="@+id/btn_acceptSuggestion"
+            android:layout_below="@+id/textView_suggestedPassword"
+            android:text="Deny"
+            android:id="@+id/btn_denySuggestion"/>
+
+    </RelativeLayout>
+
 </RelativeLayout>

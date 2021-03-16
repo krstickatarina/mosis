@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 if(mFirebaseUser != null)
                 {
                     startActivity(new Intent(MainActivity.this, MapsActivity.class));
-                    finish();
+                    //finish();
                 }
             }
         };
