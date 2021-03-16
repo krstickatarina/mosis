@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/wifinder"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="160dp"
         android:layout_marginRight="140dp"
         android:layout_marginBottom="50dp"
@@ -20,8 +21,9 @@
         android:layout_below="@+id/login_image"/>
 
     <ImageView
-        android:layout_width="200px"
-        android:layout_height="200px"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="160dp"
         android:layout_marginRight="150dp"
         android:layout_marginBottom="0dp"
