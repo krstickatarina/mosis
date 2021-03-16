@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">WiFinder</string>
     <string name="title_activity_maps">Map</string>
+    <string name="login">You don`t have account? <u>Register here</u></string>
+    <string name="register">You have an account? <u>Login here</u></string>
+    <string name="wifinder"><b><i>Wi-Finder</i></b></string>
+    <string name="password"><i>password</i></string>
+    <string name="email"><i>e-mail address</i></string>
 </resources>
