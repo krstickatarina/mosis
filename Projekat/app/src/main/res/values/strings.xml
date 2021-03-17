@@ -6,4 +6,12 @@
     <string name="wifinder"><b><i>Wi-Finder</i></b></string>
     <string name="password"><i>password</i></string>
     <string name="email"><i>e-mail address</i></string>
+    <string name="profile_info_text">Info</string>
+    <string name="profile_friends_text">Friends</string>
+    <string name="profile_first_name_text">First name:</string>
+    <string name="profile_last_name_text">Last name:</string>
+    <string name="profile_phone_text">Phone number:</string>
+    <string name="profile_email_text">E-mail address:</string>
+    <string name="profile_password_text">Password:</string>
+    <string name="profile_points_text">Points:</string>
 </resources>
