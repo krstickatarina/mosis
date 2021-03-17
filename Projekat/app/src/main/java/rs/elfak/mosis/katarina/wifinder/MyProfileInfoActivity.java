@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -63,7 +64,9 @@ public class MyProfileInfoActivity extends AppCompatActivity {
         emailAddress = findViewById(R.id.profile_email);
         password = findViewById(R.id.profile_password);
         numberOfTokens = findViewById(R.id.profile_points);
-        
+
+        profileFriends.setBackgroundColor(Color.parseColor("#DA70D6"));
+
         currentUsersID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         usersReference = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUsersID);
@@ -110,6 +113,20 @@ public class MyProfileInfoActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+
+        editProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MyProfileInfoActivity.this, EditMyProfileInfoActivity.class));
+            }
+        });
+
+        profileFriends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MyProfileInfoActivity.this, MyProfileFriendsActivity.class));
             }
         });
     }
