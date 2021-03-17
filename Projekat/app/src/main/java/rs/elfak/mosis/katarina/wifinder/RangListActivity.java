@@ -14,8 +14,12 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -50,10 +54,12 @@ public class RangListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rang_list);
 
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_ios_24);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         ActionBar actionBar;
         actionBar = getSupportActionBar();
-        ColorDrawable colorDrawable
-                = new ColorDrawable(Color.parseColor("#EEB245"));
+        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#EEB245"));
         actionBar.setBackgroundDrawable(colorDrawable);
 
         query = FirebaseDatabase.getInstance().getReference().child("Users").orderByChild("numberOfTokens");
@@ -72,7 +78,7 @@ public class RangListActivity extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(@NonNull RangListHolder holder, int position, @NonNull User model) {
                 holder.usersName.setText(model.getFirstName()+" "+model.getLastName());
-                holder.usersUsername.setText(model.getUsername());
+                holder.usersUsername.setText("@"+model.getUsername());
                 holder.usersId.setText(getRef(position).getKey());
                 holder.usersNumberOfTokens.setText(String.valueOf(-1*model.getNumberOfTokens()));
                 String usersId = getRef(position).getKey();
@@ -105,6 +111,7 @@ public class RangListActivity extends AppCompatActivity {
                         if(currentUsersID.equals(getRef(position).getKey()))
                         {
                             Intent intent = new Intent(RangListActivity.this, MyProfileInfoActivity.class);
+                            intent.putExtra("backActivity", "RangListActivity");
                             startActivity(intent);
                         }
                         else
@@ -116,12 +123,14 @@ public class RangListActivity extends AppCompatActivity {
                                     {
                                         Intent intent = new Intent(RangListActivity.this, FriendsProfileActivity.class);
                                         intent.putExtra("usersID", usersId);
+                                        intent.putExtra("backActivity", "RangListActivity");
                                         startActivity(intent);
                                     }
                                     else
                                     {
                                         Intent intent = new Intent(RangListActivity.this, UsersProfileActivity.class);
                                         intent.putExtra("usersID", usersId);
+                                        intent.putExtra("backActivity", "RangListActivity");
                                         startActivity(intent);
                                     }
                                 }
@@ -146,5 +155,27 @@ public class RangListActivity extends AppCompatActivity {
 
         adapter.startListening();
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.users_profile_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home)
+        {
+            startActivity(new Intent(RangListActivity.this, HomeActivity.class));
+        }
+        else if(item.getItemId() == R.id.logOut_btn)
+        {
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(RangListActivity.this, MainActivity.class));
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
