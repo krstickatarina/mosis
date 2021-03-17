@@ -98,34 +98,42 @@ public class RangListActivity extends AppCompatActivity {
                                 .preload();
                     }
                 });
-/*
+
                 holder.usersLinearLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        friendshipsReference.orderByKey().equalTo(usersId).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if(snapshot.exists())
-                                {
-                                    Intent intent = new Intent(RangListActivity.this, FriendsProfileActivity.class);
-                                    intent.putExtra("usersID", usersId);
-                                    startActivity(intent);
+                        if(currentUsersID.equals(getRef(position).getKey()))
+                        {
+                            Intent intent = new Intent(RangListActivity.this, MyProfileInfoActivity.class);
+                            startActivity(intent);
+                        }
+                        else
+                        {
+                            friendshipsReference.orderByKey().equalTo(usersId).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if(snapshot.exists())
+                                    {
+                                        Intent intent = new Intent(RangListActivity.this, FriendsProfileActivity.class);
+                                        intent.putExtra("usersID", usersId);
+                                        startActivity(intent);
+                                    }
+                                    else
+                                    {
+                                        Intent intent = new Intent(RangListActivity.this, UsersProfileActivity.class);
+                                        intent.putExtra("usersID", usersId);
+                                        startActivity(intent);
+                                    }
                                 }
-                                else
-                                {
-                                    Intent intent = new Intent(RangListActivity.this, UsersProfileActivity.class);
-                                    intent.putExtra("usersID", usersId);
-                                    startActivity(intent);
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
                                 }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
+                            });
+                        }
                     }
-                });*/
+                });
             }
 
             @NonNull
