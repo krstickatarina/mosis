@@ -223,15 +223,17 @@ public class UsersProfileActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(android.R.id.home==item.getItemId())
         {
-            Toast.makeText(UsersProfileActivity.this, "Back", Toast.LENGTH_SHORT).show();
             if(backActivity.equals("RangListActivity"))
             {
                 startActivity(new Intent(UsersProfileActivity.this, RangListActivity.class));
             }
+            else if(backActivity.equals("FindFriendsActivity"))
+            {
+                startActivity(new Intent(UsersProfileActivity.this, FindFriendsActivity.class));
+            }
         }
         else if(item.getItemId() == R.id.logOut_btn)
         {
-            Toast.makeText(UsersProfileActivity.this, "Log out", Toast.LENGTH_SHORT).show();
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(UsersProfileActivity.this, MainActivity.class));
             finish();

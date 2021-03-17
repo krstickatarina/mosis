@@ -14,6 +14,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -58,10 +61,12 @@ public class FindFriendsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_friends);
 
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_ios_24);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         ActionBar actionBar;
         actionBar = getSupportActionBar();
-        ColorDrawable colorDrawable
-                = new ColorDrawable(Color.parseColor("#EEB245"));
+        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#EEB245"));
         actionBar.setBackgroundDrawable(colorDrawable);
 
         editTextNameOfAPerson = findViewById(R.id.findFriends_searchFriend_editText);
@@ -132,6 +137,7 @@ public class FindFriendsActivity extends AppCompatActivity {
                         if(currentUsersID.equals(getRef(position).getKey()))
                         {
                             Intent intent = new Intent(FindFriendsActivity.this, MyProfileInfoActivity.class);
+                            intent.putExtra("backActivity", "FindFriendsActivity");
                             startActivity(intent);
                         }
                         else
@@ -143,12 +149,14 @@ public class FindFriendsActivity extends AppCompatActivity {
                                     {
                                         Intent intent = new Intent(FindFriendsActivity.this, FriendsProfileActivity.class);
                                         intent.putExtra("usersID", getRef(position).getKey());
+                                        intent.putExtra("backActivity", "FindFriendsActivity");
                                         startActivity(intent);
                                     }
                                     else
                                     {
                                         Intent intent = new Intent(FindFriendsActivity.this, UsersProfileActivity.class);
                                         intent.putExtra("usersID", getRef(position).getKey());
+                                        intent.putExtra("backActivity", "FindFriendsActivity");
                                         startActivity(intent);
                                     }
                                 }
@@ -172,5 +180,27 @@ public class FindFriendsActivity extends AppCompatActivity {
         };
         adapter.startListening();
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.users_profile_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(android.R.id.home==item.getItemId())
+        {
+            startActivity(new Intent(FindFriendsActivity.this, HomeActivity.class));
+        }
+        else if(item.getItemId() == R.id.logOut_btn)
+        {
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(FindFriendsActivity.this, MainActivity.class));
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

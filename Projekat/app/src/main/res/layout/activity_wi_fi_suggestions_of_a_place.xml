@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/orange_gradient_top_down"
+    tools:context=".WiFiSuggestionsOfAPlaceActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:layout_margin="10dp"
+        android:text="Wi-Fi password suggestions"
+        android:id="@+id/wiFiSuggestions_textView"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Deny all"
+        android:layout_margin="10dp"
+        android:layout_below="@+id/wiFiSuggestions_textView"
+        android:id="@+id/wiFiSuggestions_denyAllButton"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/wiFiSuggestions_nameOfAPlace"
+        android:layout_below="@+id/wiFiSuggestions_denyAllButton"
+        android:textStyle="italic"
+        android:layout_centerHorizontal="true"
+        android:textSize="15dp"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="10dp"
+        android:id="@+id/wiFiSuggestions_latitudeOfAPlace"
+        android:text="latitude:"
+        android:layout_below="@+id/wiFiSuggestions_nameOfAPlace"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="10dp"
+        android:id="@+id/wiFiSuggestions_longitudeOfAPlace"
+        android:layout_below="@+id/wiFiSuggestions_latitudeOfAPlace"
+        android:text="longitude:"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_below="@+id/wiFiSuggestions_longitudeOfAPlace"
+        android:id="@+id/recyclerViewWiFiSuggestions"/>
+
+</RelativeLayout>

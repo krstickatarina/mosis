@@ -2,6 +2,8 @@ package rs.elfak.mosis.katarina.wifinder;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -9,7 +11,6 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
-import android.app.ActionBar;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -19,6 +20,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
@@ -28,6 +30,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -73,7 +78,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener, GoogleMap.OnMarkerClickListener {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener, GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
 
@@ -113,12 +118,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private EditText editTextNameOfAPlace;
     private Button findPlace;
 
-    //Go back
-    private ImageButton imageButtonGoBack;
-
-    //Log out
-    private ImageButton imageButtonLogOut;
-
     //Admin
     private String adminID = "npGXbgIrWsfyioefTknKcihx1Qc2";
     private RelativeLayout relativeLayoutForAcceptingSuggestion;
@@ -137,20 +136,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        //Creating action bar
+        fAuth = FirebaseAuth.getInstance();
+        currentUserID = fAuth.getCurrentUser().getUid();
+
+        ActionBar actionBar;
+        actionBar = getSupportActionBar();
+        ColorDrawable colorDrawable = new ColorDrawable(Color.LTGRAY);
+        actionBar.setBackgroundDrawable(colorDrawable);
+        setTitle("WiFinder");
 
 
         locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
 
-        fAuth = FirebaseAuth.getInstance();
-        currentUserID = fAuth.getCurrentUser().getUid();
         currentUserReference = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID);
         currentUserFriendshipsReference = FirebaseDatabase.getInstance().getReference().child("Friendships").child(currentUserID);
         storageReference = FirebaseStorage.getInstance().getReference().child("profile_images");
 
         //Radius
+
         editTextRadius = findViewById(R.id.editText_radius);
         btnRadius = findViewById(R.id.btn_radius);
+        btnRadius.setBackgroundColor(Color.LTGRAY);
 
         btnRadius.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,6 +204,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         relativeLayoutForSearchingPlace = findViewById(R.id.relativeLayout_searchPlace);
         editTextNameOfAPlace = findViewById(R.id.editText_insertNameOfAPlace);
         findPlace = findViewById(R.id.btn_findPlaceByName);
+        findPlace.setBackgroundColor(Color.LTGRAY);
 
         searchObjectsOnMap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -222,32 +229,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        //Go back
-        imageButtonGoBack = findViewById(R.id.imageBtn_goBack);
-        imageButtonGoBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MapsActivity.this, HomeActivity.class));
-            }
-        });
-
-        //Log out
-        imageButtonLogOut = findViewById(R.id.imageBtn_logOut);
-        imageButtonLogOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                finish();
-            }
-        });
-
 
         //Admin
         wifiPasswordSuggestionsReference = FirebaseDatabase.getInstance().getReference().child("WiFiSuggestions");
         relativeLayoutForAcceptingSuggestion = findViewById(R.id.relativeLayout_suggestedPassword);
         acceptSuggestion = findViewById(R.id.btn_acceptSuggestion);
         denySuggestion = findViewById(R.id.btn_denySuggestion);
+
+        if(!currentUserID.equals(adminID))
+        {
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_ios_24);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+        else
+        {
+            searchObjectsOnMap.setVisibility(View.GONE);
+            showMyLocation.setVisibility(View.GONE);
+            addObjectImageBtn.setVisibility(View.GONE);
+            getNotifications.setVisibility(View.GONE);
+            editTextRadius.setVisibility(View.GONE);
+            btnRadius.setVisibility(View.GONE);
+        }
 
     }
 
@@ -788,14 +790,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                         @Override
                         public void onInfoWindowClick(Marker marker) {
-                            findThePlaceAndDeleteIt(marker, false);
+                            Intent intent = new Intent(MapsActivity.this, WiFiSuggestionsOfAPlaceActivity.class);
+                            intent.putExtra("longitude", marker.getPosition().longitude);
+                            intent.putExtra("latitude", marker.getPosition().latitude);
+                            startActivity(intent);
+                            //findThePlaceAndDeleteIt(marker, false);
                         }
                     });
 
                     mMap.setOnInfoWindowLongClickListener(new GoogleMap.OnInfoWindowLongClickListener() {
                         @Override
                         public void onInfoWindowLongClick(Marker marker) {
-                            findThePlaceAndDeleteIt(marker, true);
+                            //findThePlaceAndDeleteIt(marker, true);
                         }
                     });
                 }
@@ -887,4 +893,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.users_profile_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(android.R.id.home==item.getItemId())
+        {
+            startActivity(new Intent(MapsActivity.this, HomeActivity.class));
+        }
+        else if(item.getItemId() == R.id.logOut_btn)
+        {
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(MapsActivity.this, MainActivity.class));
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

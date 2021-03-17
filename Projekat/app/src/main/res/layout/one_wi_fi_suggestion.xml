@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_margin="5dp"
+    android:layout_width="match_parent"
+    android:id = "@+id/oneWiFiSuggestion_relativeLayoutAll"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="5dp"
+        android:src="@drawable/ic_baseline_location_on_blue_24"
+        android:id="@+id/oneWiFiSuggestion_imageView"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/oneWiFiSuggestion_imageView"
+        android:id="@+id/oneWiFiSuggestion_textView"
+        android:textSize="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:textStyle="italic"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        android:id="@+id/oneWiFiSuggestion_relativeLayout">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/oneWiFiSuggestion_acceptSuggestion"
+            android:layout_margin="3dp"
+            android:text="Accept"/>
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/oneWiFiSuggestion_denySuggestion"
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/oneWiFiSuggestion_acceptSuggestion"
+            android:text="Deny"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,11 +1,16 @@
 package rs.elfak.mosis.katarina.wifinder;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,12 +35,18 @@ public class AddNewObjectOnMapActivity extends AppCompatActivity {
     private String currentUserID;
     private User currentUser;
 
-    private ImageButton goBack, logOut;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_object_on_map);
+
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_ios_24);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        ActionBar actionBar;
+        actionBar = getSupportActionBar();
+        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#EEB245"));
+        actionBar.setBackgroundDrawable(colorDrawable);
 
         editTextLatitude = findViewById(R.id.editText_latitudeOfObject);
         editTextLongitude = findViewById(R.id.editText_longitudeOfObject);
@@ -95,23 +106,27 @@ public class AddNewObjectOnMapActivity extends AppCompatActivity {
                 }
             }
         });
+    }
 
-        goBack = findViewById(R.id.imgBtn_goBackToMap);
-        goBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(AddNewObjectOnMapActivity.this, MapsActivity.class));
-            }
-        });
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.users_profile_menu, menu);
+        return true;
+    }
 
-        logOut = findViewById(R.id.addNewObject_logOut);
-        logOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(AddNewObjectOnMapActivity.this, MainActivity.class));
-                finish();
-            }
-        });
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(android.R.id.home==item.getItemId())
+        {
+            startActivity(new Intent(AddNewObjectOnMapActivity.this, MapsActivity.class));
+        }
+        else if(item.getItemId() == R.id.logOut_btn)
+        {
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(AddNewObjectOnMapActivity.this, MainActivity.class));
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
