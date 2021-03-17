@@ -65,7 +65,7 @@ public class MyProfileInfoActivity extends AppCompatActivity {
         password = findViewById(R.id.profile_password);
         numberOfTokens = findViewById(R.id.profile_points);
 
-        profileFriends.setBackgroundColor(Color.parseColor("#DA70D6"));
+        profileInfo.setBackgroundColor(Color.parseColor("#8A2BE2"));
 
         currentUsersID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
