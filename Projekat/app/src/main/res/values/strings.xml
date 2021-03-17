@@ -8,10 +8,10 @@
     <string name="email"><i>e-mail address</i></string>
     <string name="profile_info_text">Info</string>
     <string name="profile_friends_text">Friends</string>
-    <string name="profile_first_name_text">First name:</string>
-    <string name="profile_last_name_text">Last name:</string>
-    <string name="profile_phone_text">Phone number:</string>
-    <string name="profile_email_text">E-mail address:</string>
-    <string name="profile_password_text">Password:</string>
-    <string name="profile_points_text">Points:</string>
+    <string name="profile_first_name_text"><b>First name:</b></string>
+    <string name="profile_last_name_text"><b>Last name:</b></string>
+    <string name="profile_phone_text"><b>Phone number:</b></string>
+    <string name="profile_email_text"><b>E-mail address:</b></string>
+    <string name="profile_password_text"><b>Password:</b></string>
+    <string name="profile_points_text"><b>Points:</b></string>
 </resources>
