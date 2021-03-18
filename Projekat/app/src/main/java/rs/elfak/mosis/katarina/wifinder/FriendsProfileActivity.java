@@ -143,8 +143,17 @@ public class FriendsProfileActivity extends AppCompatActivity {
         searchFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nameForSearchFriendsString = nameForSearchFriends.getText().toString();
-                LoadFriendsOfAFriend();
+                if(nameForSearchFriends.getText().toString().isEmpty())
+                {
+                    nameForSearchFriendsString = "";
+                    Toast.makeText(FriendsProfileActivity.this, "Please enter username of a friend you are searching for!", Toast.LENGTH_SHORT).show();
+                    LoadFriendsOfAFriend();
+                }
+                else
+                {
+                    nameForSearchFriendsString = nameForSearchFriends.getText().toString();
+                    LoadFriendsOfAFriend();
+                }
             }
         });
 
@@ -203,8 +212,8 @@ public class FriendsProfileActivity extends AppCompatActivity {
 
     private void LoadFriendsOfAFriend()
     {
-        query = friendshipsReference.orderByChild("name").startAt(nameForSearchFriendsString).endAt(nameForSearchFriendsString+"\uf8ff");
-        options = new FirebaseRecyclerOptions.Builder<User>().setQuery(friendshipsReference, User.class).build();
+        query = friendshipsReference.orderByChild("username").startAt(nameForSearchFriendsString).endAt(nameForSearchFriendsString+"\uf8ff");
+        options = new FirebaseRecyclerOptions.Builder<User>().setQuery(query, User.class).build();
         adapter = new FirebaseRecyclerAdapter<User, FriendsOfAFriendHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull FriendsOfAFriendHolder holder, int position, @NonNull User model) {
