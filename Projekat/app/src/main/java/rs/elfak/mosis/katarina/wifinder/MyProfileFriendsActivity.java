@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -126,6 +127,13 @@ public class MyProfileFriendsActivity extends AppCompatActivity {
                                 })
                                 .centerCrop()
                                 .preload();
+                    }
+                });
+
+                holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(MyProfileFriendsActivity.this, usersID, Toast.LENGTH_SHORT).show();
                     }
                 });
 

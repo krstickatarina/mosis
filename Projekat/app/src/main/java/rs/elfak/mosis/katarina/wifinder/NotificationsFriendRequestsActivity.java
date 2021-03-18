@@ -106,6 +106,7 @@ public class NotificationsFriendRequestsActivity extends AppCompatActivity {
                 holder.usersUsername.setText(model.getFirstName()+" "+model.getLastName()+"    @"+model.getUsername());
                 holder.usersID.setText(getRef(position).getKey());
                 String user2ID = getRef(position).getKey();
+                User user2 = model;
                 storageReference.child(getRef(position).getKey()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
@@ -159,59 +160,10 @@ public class NotificationsFriendRequestsActivity extends AppCompatActivity {
                 holder.acceptFriendRequest.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        friendRequestsReference.child(user2ID).removeValue();
+                        friendshipsReference.child(currentUsersID).child(user2ID).setValue(user2);
+                        friendshipsReference.child(user2ID).child(currentUsersID).setValue(currentUser);
                         exchangeWiFiPasswords(user2ID);
-                        //friendRequestsReference.child(getRef(position).getKey()).removeValue();
-                        //friendshipsReference.child(currentUsersID).child(getRef(position).getKey()).setValue(model);
-                        //friendshipsReference.child(getRef(position).getKey()).child(currentUsersID).setValue(currentUser);
-
-                        //String user2 = getRef(position).getKey();
-
-                        /*wiFiPasswords.orderByChild("userThatDiscoveredThisPasswordID").equalTo(currentUsersID).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if(snapshot.exists())
-                                {
-                                    for(DataSnapshot d:snapshot.getChildren())
-                                    {
-                                        Toast.makeText(NotificationsFriendRequestsActivity.this, getRef(position).getKey()+"", Toast.LENGTH_SHORT).show();
-                                        WiFiPassword wiFiPassword = d.getValue(WiFiPassword.class);
-                                        if(!wiFiPassword.getUsersThatKnowsThisPasswordID().contains(holder.usersID.getText().toString()))
-                                        {
-                                            wiFiPassword.getUsersThatKnowsThisPasswordID().add(holder.usersID.getText().toString());
-                                            wiFiPasswords.child(d.getKey()).setValue(wiFiPassword);
-                                        }
-                                    }
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-
-                        wiFiPasswords.orderByChild("userThatDiscoveredThisPasswordID").equalTo(holder.usersID.getText().toString()).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if(snapshot.exists())
-                                {
-                                    for(DataSnapshot d:snapshot.getChildren())
-                                    {
-                                        WiFiPassword wiFiPassword = d.getValue(WiFiPassword.class);
-                                        if(!wiFiPassword.getUsersThatKnowsThisPasswordID().contains(currentUsersID))
-                                        {
-                                            wiFiPassword.getUsersThatKnowsThisPasswordID().add(currentUsersID);
-                                            wiFiPasswords.child(d.getKey()).setValue(wiFiPassword);
-                                        }
-                                    }
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });*/
                     }
                 });
             }
@@ -229,9 +181,9 @@ public class NotificationsFriendRequestsActivity extends AppCompatActivity {
 
     private void exchangeWiFiPasswords(String user2ID)
     {
-        //friendRequestsReference.child(getRef(position).getKey()).removeValue();
-        //friendshipsReference.child(currentUsersID).child(getRef(position).getKey()).setValue(model);
-        //friendshipsReference.child(getRef(position).getKey()).child(currentUsersID).setValue(currentUser);
+        /*friendRequestsReference.child(user2ID).removeValue();
+        friendshipsReference.child(currentUsersID).child(user2ID).setValue(model);
+        friendshipsReference.child(user2ID).child(currentUsersID).setValue(currentUser);*/
 
         //String user2 = getRef(position).getKey();
 
