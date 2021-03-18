@@ -76,7 +76,7 @@ public class RegisterActivity extends AppCompatActivity {
         loginTextView = findViewById(R.id.register_gotologin_textview);
         uploadImage = findViewById(R.id.register_imageView);
 
-        registerBtn.setBackgroundColor(Color.parseColor("#EEB245"));
+        //registerBtn.setBackgroundColor(Color.parseColor("#EEB245"));
 
         fAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Users");

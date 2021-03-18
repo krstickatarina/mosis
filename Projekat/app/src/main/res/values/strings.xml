@@ -1,11 +1,16 @@
 <resources>
     <string name="app_name">WiFinder</string>
     <string name="title_activity_maps">Map</string>
+    <string name="registration"><b><i>Registration</i></b></string>
     <string name="login">You don`t have account? <u>Register here</u></string>
     <string name="register">You have an account? <u>Login here</u></string>
     <string name="wifinder"><b><i>Wi-Finder</i></b></string>
-    <string name="password"><i>password</i></string>
-    <string name="email"><i>e-mail address</i></string>
+    <string name="password"><i>Password</i></string>
+    <string name="email"><i>E-mail address</i></string>
+    <string name="firstname"><i>First name</i></string>
+    <string name="lastname"><i>Last name</i></string>
+    <string name="phonenumber"><i>Phone number</i></string>
+    <string name="username"><i>Username</i></string>
     <string name="profile_info_text">Info</string>
     <string name="profile_friends_text">Friends</string>
     <string name="profile_first_name_text"><b>First name:</b></string>
@@ -17,12 +22,12 @@
     <string name="profile_friends_username_text"><b>Username:</b></string>
     <string name="friends_profile_check"><i>Friends</i></string>
     <string name="edit_profile_text">Edit profile</string>
-    <string name="edit_profile_username"><b><i>New username:</i></b></string>
-    <string name="edit_profile_first_name"><b><i>New first name:</i></b></string>
-    <string name="edit_profile_last_name"><b><i>New last name:</i></b></string>
-    <string name="edit_profile_phone"><b><i>New phone number:</i></b></string>
-    <string name="edit_profile_email"><b><i>New e-mail:</i></b></string>
-    <string name="edit_profile_password"><b><i>New password:</i></b></string>
+    <string name="edit_profile_username"><b><i>New username</i></b></string>
+    <string name="edit_profile_first_name"><b><i>New first name</i></b></string>
+    <string name="edit_profile_last_name"><b><i>New last name</i></b></string>
+    <string name="edit_profile_phone"><b><i>New phone number</i></b></string>
+    <string name="edit_profile_email"><b><i>New e-mail</i></b></string>
+    <string name="edit_profile_password"><b><i>New password</i></b></string>
     <string name="edit_profile_finished">Finish</string>
     <string name="edit_profile_cancel">Cancel</string>
 </resources>
