@@ -43,6 +43,7 @@ public class MyProfileInfoActivity extends AppCompatActivity {
     String currentUsersID;
     DatabaseReference usersReference;
     StorageReference storageReference;
+    String backActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,12 @@ public class MyProfileInfoActivity extends AppCompatActivity {
 
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_ios_24);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Bundle extras = getIntent().getExtras();
+        if(extras!=null)
+        {
+            backActivity = extras.getString("backActivity");
+        }
 
 
         profileImage = findViewById(R.id.profile_image);
@@ -142,7 +149,18 @@ public class MyProfileInfoActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home)
         {
-            startActivity(new Intent(MyProfileInfoActivity.this, HomeActivity.class));
+            if(backActivity.equals("RangListActivity"))
+            {
+                startActivity(new Intent(MyProfileInfoActivity.this, RangListActivity.class));
+            }
+            else if(backActivity.equals("FindFriendsActivity"))
+            {
+                startActivity(new Intent(MyProfileInfoActivity.this, FindFriendsActivity.class));
+            }
+            else
+            {
+                startActivity(new Intent(MyProfileInfoActivity.this, HomeActivity.class));
+            }
         }
         else if(item.getItemId() == R.id.logOut_btn)
         {

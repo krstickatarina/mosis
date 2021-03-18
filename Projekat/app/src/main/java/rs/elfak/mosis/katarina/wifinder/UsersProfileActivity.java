@@ -46,6 +46,7 @@ public class UsersProfileActivity extends AppCompatActivity {
     private User currentUser, userProfile;
     private StorageReference storageReference;
     private String backActivity="";
+    private String backID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +66,10 @@ public class UsersProfileActivity extends AppCompatActivity {
         {
             usersID = extras.getString("usersID");
             backActivity = extras.getString("backActivity");
+            if(backActivity.equals("FriendsProfileActivity"))
+            {
+                backID = extras.getString("backID");
+            }
         }
 
         usersUsername = findViewById(R.id.usersProfile_usersUsername_textView);
@@ -293,6 +298,13 @@ public class UsersProfileActivity extends AppCompatActivity {
             else if(backActivity.equals("Notifications"))
             {
                 startActivity(new Intent(UsersProfileActivity.this, NotificationsFriendRequestsActivity.class));
+            }
+            else if(backActivity.equals("FriendsProfileActivity"))
+            {
+                Intent intent = new Intent(UsersProfileActivity.this, FriendsProfileActivity.class);
+                intent.putExtra("usersID", backID);
+                intent.putExtra("backActivity", "MyProfileFriends");
+                startActivity(intent);
             }
         }
         else if(item.getItemId() == R.id.logOut_btn)
