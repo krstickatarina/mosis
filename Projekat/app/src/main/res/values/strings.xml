@@ -16,4 +16,13 @@
     <string name="profile_points_text"><b>Points:</b></string>
     <string name="profile_friends_username_text"><b>Username:</b></string>
     <string name="friends_profile_check"><i>Friends</i></string>
+    <string name="edit_profile_text">Edit profile</string>
+    <string name="edit_profile_username"><b><i>New username:</i></b></string>
+    <string name="edit_profile_first_name"><b><i>New first name:</i></b></string>
+    <string name="edit_profile_last_name"><b><i>New last name:</i></b></string>
+    <string name="edit_profile_phone"><b><i>New phone number:</i></b></string>
+    <string name="edit_profile_email"><b><i>New e-mail:</i></b></string>
+    <string name="edit_profile_password"><b><i>New password:</i></b></string>
+    <string name="edit_profile_finished">Finish</string>
+    <string name="edit_profile_cancel">Cancel</string>
 </resources>

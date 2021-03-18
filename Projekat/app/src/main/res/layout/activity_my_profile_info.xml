@@ -8,25 +8,19 @@
     tools:context=".MyProfileInfoActivity">
 
 
-    <Button
-        android:id="@+id/profile_info_button"
+    <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="200dp"
-        android:text="@string/profile_info_text"
-        app:layout_constraintEnd_toStartOf="@+id/profile_friends_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/profile_friends_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="200dp"
-        android:text="@string/profile_friends_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/profile_info_button"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:id="@+id/buttons">
+        <Button
+            android:id="@+id/profile_info_button"
+            android:layout_weight="1"
+            android:text="@string/profile_info_text"/>
+        <Button
+            android:id="@+id/profile_friends_button"
+            android:layout_weight="1"
+            android:text="@string/profile_friends_text" />
+    </TableRow>
 
     <TextView
         android:id="@+id/profile_username"
@@ -44,9 +38,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="17dp"
-        android:layout_marginTop="46dp"
+        android:layout_marginTop="15dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_info_button"
+        app:layout_constraintTop_toBottomOf="@+id/buttons"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
@@ -184,8 +178,8 @@
         android:layout_width="81dp"
         android:layout_height="55dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="40dp"
         app:layout_constraintStart_toEndOf="@+id/profile_image"
-        app:layout_constraintTop_toBottomOf="@+id/profile_info_button"
+        app:layout_constraintTop_toBottomOf="@+id/buttons"
         app:srcCompat="@drawable/ic_baseline_emoji_events_24" />
 </androidx.constraintlayout.widget.ConstraintLayout>
