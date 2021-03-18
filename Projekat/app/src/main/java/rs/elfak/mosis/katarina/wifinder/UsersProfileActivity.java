@@ -38,10 +38,10 @@ import com.google.firebase.storage.StorageReference;
 public class UsersProfileActivity extends AppCompatActivity {
 
     private TextView usersUsername, usersNumberOfTokens;
-    private Button sendCancelFriendRequest;
+    private Button sendCancelFriendRequest, declineFriendRequest;
     private ImageView usersProfileImage;
     private String currentUsersID, usersID;
-    private DatabaseReference friendRequestsReference, friendshipsReference, usersReference;
+    private DatabaseReference friendRequestsReference, friendshipsReference, usersReference, wifiReference;
     private String sentFriendRequest="";
     private User currentUser, userProfile;
     private StorageReference storageReference;
@@ -71,12 +71,14 @@ public class UsersProfileActivity extends AppCompatActivity {
         usersNumberOfTokens = findViewById(R.id.usersProfile_usersNumberOfTokens_textView);
         usersProfileImage = findViewById(R.id.usersProfile_usersProfileImage_imageView);
         sendCancelFriendRequest = findViewById(R.id.usersProfile_sendCancelFriendRequest_button);
+        declineFriendRequest = findViewById(R.id.usersProfile_denyFriendRequest);
 
         currentUsersID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         friendRequestsReference = FirebaseDatabase.getInstance().getReference().child("Friend requests");
         friendshipsReference = FirebaseDatabase.getInstance().getReference().child("Friendships");
         usersReference = FirebaseDatabase.getInstance().getReference().child("Users");
         storageReference = FirebaseStorage.getInstance().getReference().child("profile_images").child(usersID);
+        wifiReference = FirebaseDatabase.getInstance().getReference().child("WifiPasswords");
 
         checkIfUsersSentFriendRequestToEachOther();
 
@@ -90,6 +92,52 @@ public class UsersProfileActivity extends AppCompatActivity {
                     friendRequestsReference.child(currentUsersID).child(usersID).removeValue();
                     friendshipsReference.child(currentUsersID).child(usersID).setValue(userProfile);
                     friendshipsReference.child(usersID).child(currentUsersID).setValue(currentUser);
+                    wifiReference.orderByChild("userThatDiscoveredThisPasswordID").equalTo(currentUsersID).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if(snapshot.exists())
+                            {
+                                for(DataSnapshot s:snapshot.getChildren())
+                                {
+                                    WiFiPassword wiFiPassword = s.getValue(WiFiPassword.class);
+                                    if(!wiFiPassword.getUsersThatKnowsThisPasswordID().contains(usersID))
+                                    {
+                                        wiFiPassword.getUsersThatKnowsThisPasswordID().add(usersID);
+                                        wifiReference.child(s.getKey()).setValue(wiFiPassword);
+                                    }
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+                    wifiReference.orderByChild("userThatDiscoveredThisPasswordID").equalTo(usersID).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if(snapshot.exists())
+                            {
+                                for(DataSnapshot d:snapshot.getChildren())
+                                {
+                                    WiFiPassword wiFiPassword = d.getValue(WiFiPassword.class);
+                                    if(!wiFiPassword.getUsersThatKnowsThisPasswordID().contains(currentUsersID))
+                                    {
+                                        wiFiPassword.getUsersThatKnowsThisPasswordID().add(currentUsersID);
+                                        wifiReference.child(d.getKey()).setValue(wiFiPassword);
+                                    }
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
                     Intent intent = new Intent(UsersProfileActivity.this, FriendsProfileActivity.class);
                     intent.putExtra("usersID", usersID);
                     startActivity(intent);
@@ -167,6 +215,16 @@ public class UsersProfileActivity extends AppCompatActivity {
 
             }
         });
+
+        declineFriendRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                friendRequestsReference.child(currentUsersID).child(usersID).removeValue();
+                sendCancelFriendRequest.setText("Send friend request");
+                declineFriendRequest.setVisibility(View.GONE);
+                sentFriendRequest = "Send";
+            }
+        });
     }
 
     private void checkIfUsersSentFriendRequestToEachOther()
@@ -176,8 +234,9 @@ public class UsersProfileActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists())
                 {
-                    sendCancelFriendRequest.setText("Accept friend request");
+                    sendCancelFriendRequest.setText("Accept");
                     sentFriendRequest = "Accept";
+                    declineFriendRequest.setVisibility(View.VISIBLE);
                 }
                 else
                 {
@@ -230,6 +289,10 @@ public class UsersProfileActivity extends AppCompatActivity {
             else if(backActivity.equals("FindFriendsActivity"))
             {
                 startActivity(new Intent(UsersProfileActivity.this, FindFriendsActivity.class));
+            }
+            else if(backActivity.equals("Notifications"))
+            {
+                startActivity(new Intent(UsersProfileActivity.this, NotificationsFriendRequestsActivity.class));
             }
         }
         else if(item.getItemId() == R.id.logOut_btn)

@@ -37,16 +37,32 @@
         android:layout_marginTop="7dp"
         android:layout_marginLeft="30dp"/>
 
-    <Button
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textSize="20dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:layout_below="@+id/usersProfile_usersNumberOfTokens_textView"
-        android:id="@+id/usersProfile_sendCancelFriendRequest_button"
-        android:text="Add friend"/>
+        android:layout_below="@+id/usersProfile_usersNumberOfTokens_textView">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="20dp"
+            android:id="@+id/usersProfile_sendCancelFriendRequest_button"
+            android:text="Accept"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/usersProfile_denyFriendRequest"
+            android:textSize="20dp"
+            android:visibility="gone"
+            android:layout_toRightOf="@+id/usersProfile_sendCancelFriendRequest_button"
+            android:text="Decline"/>
+
+    </RelativeLayout>
 
 
 

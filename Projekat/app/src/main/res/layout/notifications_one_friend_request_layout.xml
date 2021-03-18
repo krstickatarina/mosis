@@ -1,6 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_margin="5dp"
+    android:id="@+id/oneNotification_firstRelativeLayout"
+    android:layout_height="wrap_content">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        android:background="@color/white"
+        android:id="@+id/oneNotification_secondRelativeLayout">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="3dp"
+            android:id="@+id/oneNotification_usersProfileImage"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:id="@+id/oneNotification_usersUsername"
+            android:layout_toRightOf="@+id/oneNotification_usersProfileImage"
+            android:textSize="15dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:id="@+id/oneNotification_sentFriendRequest"
+            android:layout_toRightOf="@+id/oneNotification_usersProfileImage"
+            android:layout_below="@+id/oneNotification_usersUsername"
+            android:text="Sent you friend request"
+            android:textStyle="italic"
+            android:textSize="12dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/oneNotification_usersID"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_margin="8dp"
+            android:id="@+id/oneNotification_acceptRequest"
+            android:layout_toRightOf="@+id/oneNotification_usersUsername"
+            android:src="@drawable/ic_baseline_check_24"/>
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_margin="8dp"
+            android:id="@+id/oneNotification_declineFriendRequest"
+            android:layout_toRightOf="@+id/oneNotification_acceptRequest"
+            android:src="@drawable/ic_baseline_cancel_24"/>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
