@@ -61,8 +61,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         ActionBar actionBar;
         actionBar = getSupportActionBar();
-        ColorDrawable colorDrawable
-                = new ColorDrawable(Color.parseColor("#EEB245"));
+        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#EEB245"));
         actionBar.setBackgroundDrawable(colorDrawable);
 
         firstName = findViewById(R.id.register_firstname);
@@ -77,6 +76,7 @@ public class RegisterActivity extends AppCompatActivity {
         uploadImage = findViewById(R.id.register_imageView);
 
         //registerBtn.setBackgroundColor(Color.parseColor("#EEB245"));
+        uploadImage.setImageResource(R.drawable.ic_baseline_image_24);
 
         fAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Users");
@@ -108,7 +108,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String phoneNumberString = phoneNumber.getText().toString();
 
                 if(!firstNameString.isEmpty() && !lastNameString.isEmpty() && !usernameString.isEmpty() && !emailAddressString.isEmpty() &&
-                    !passwordString.isEmpty() && !phoneNumberString.isEmpty())
+                    !passwordString.isEmpty() && !phoneNumberString.isEmpty() && uploadImage.getDrawable().getConstantState() != getDrawable(R.drawable.ic_baseline_image_24).getConstantState())
                 {
                     fAuth.createUserWithEmailAndPassword(emailAddressString, passwordString).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -120,7 +120,7 @@ public class RegisterActivity extends AppCompatActivity {
                             else
                             {
                                 String id = fAuth.getCurrentUser().getUid();
-                                databaseReference.child(id).setValue(new User(firstNameString, lastNameString, usernameString, emailAddressString, passwordString, phoneNumberString, 0, "Pocetnik"));
+                                databaseReference.child(id).setValue(new User(firstNameString, lastNameString, usernameString, emailAddressString, passwordString, phoneNumberString, -100));
                                 storeImage(id);
                                 Toast.makeText(RegisterActivity.this, "You have registered successfully!", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(RegisterActivity.this, HomeActivity.class));
@@ -161,7 +161,11 @@ public class RegisterActivity extends AppCompatActivity {
                         password.setError("Password is requested!");
                         password.requestFocus();
                     }
-                    Toast.makeText(RegisterActivity.this, "Please enter all requested fields!", Toast.LENGTH_SHORT).show();
+                    if(uploadImage.getDrawable().getConstantState() == getDrawable(R.drawable.ic_baseline_image_24).getConstantState())
+                    {
+                        Toast.makeText(RegisterActivity.this, "Please upload your profile image!", Toast.LENGTH_SHORT).show();
+                    }
+                    //Toast.makeText(RegisterActivity.this, "Please enter all requested fields!", Toast.LENGTH_SHORT).show();
                 }
             }
         });

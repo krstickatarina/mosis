@@ -10,14 +10,13 @@ public class User {
     private String password;
     private String phoneNumber;
     private int numberOfTokens;
-    private String rank;
     private CurrentLocation myLocation;
 
     public User()
     {
     }
 
-    public User(String firstName, String lastName, String username, String emailAddress, String password, String phoneNumber, int numberOfTokens, String rank)
+    public User(String firstName, String lastName, String username, String emailAddress, String password, String phoneNumber, int numberOfTokens)
     {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -26,7 +25,6 @@ public class User {
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.numberOfTokens = numberOfTokens;
-        this.rank = rank;
         this.myLocation = new CurrentLocation();
     }
 
@@ -98,16 +96,6 @@ public class User {
     public void setNumberOfTokens(int numberOfTokens)
     {
         this.numberOfTokens = numberOfTokens;
-    }
-
-    public String getRank()
-    {
-        return this.rank;
-    }
-
-    public void setRank()
-    {
-        this.rank = rank;
     }
 
     public CurrentLocation getMyLocation()

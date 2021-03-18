@@ -690,8 +690,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 snapshot.getValue(User.class).getEmailAddress(),
                                 snapshot.getValue(User.class).getPassword(),
                                 snapshot.getValue(User.class).getPhoneNumber(),
-                                snapshot.getValue(User.class).getNumberOfTokens()+50,
-                                snapshot.getValue(User.class).getRank());
+                                snapshot.getValue(User.class).getNumberOfTokens()+50);
                         currentUserReference.setValue(newUser);
                         addTokensToTheOtherUser(wiFiPassword, wiFiPasswordKey);
                         addUserToListOfUsersThatKnowsPassword(wiFiPassword, wiFiPasswordKey);
@@ -731,8 +730,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                             snapshot.getValue(User.class).getEmailAddress(),
                             snapshot.getValue(User.class).getPassword(),
                             snapshot.getValue(User.class).getPhoneNumber(),
-                            snapshot.getValue(User.class).getNumberOfTokens()-50,
-                            snapshot.getValue(User.class).getRank());
+                            snapshot.getValue(User.class).getNumberOfTokens()-50);
                     currentUserReference.getParent().child(wiFiPassword.getUserThatDiscoveredThisPasswordID()).setValue(newUser);
                 }
             }
@@ -880,8 +878,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                             snapshot.getValue(User.class).getEmailAddress(),
                             snapshot.getValue(User.class).getPassword(),
                             snapshot.getValue(User.class).getPhoneNumber(),
-                            snapshot.getValue(User.class).getNumberOfTokens()-50,
-                            snapshot.getValue(User.class).getRank());
+                            snapshot.getValue(User.class).getNumberOfTokens()-50);
                     currentUserReference.getParent().child(userSuggesterID).setValue(newUser);
                 }
             }

@@ -86,7 +86,7 @@ public class EditMyProfileInfoActivity extends AppCompatActivity {
             public void onClick(View v) {
                 User user = new User(newFirstName.getText().toString(), newLastName.getText().toString(), newUsername.getText().toString(),
                                     email.getText().toString(), password.getText().toString(), newPhoneNumber.getText().toString(),
-                                    numberOfTokens, "Pocetnik");
+                                    numberOfTokens);
                 usersReference.setValue(user);
                 Toast.makeText(EditMyProfileInfoActivity.this, "Changes successfully saved!", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(EditMyProfileInfoActivity.this, MyProfileInfoActivity.class));
