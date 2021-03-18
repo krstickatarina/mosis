@@ -29,7 +29,7 @@ public class HomeActivity extends AppCompatActivity {
                 = new ColorDrawable(Color.parseColor("#EEB245"));
         actionBar.setBackgroundDrawable(colorDrawable);
 
-        logOutBtn = findViewById(R.id.home_logout_btn);
+        /*logOutBtn = findViewById(R.id.home_logout_btn);
 
         logOutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,6 +38,6 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 finish();
             }
-        });
+        });*/
     }
 }
