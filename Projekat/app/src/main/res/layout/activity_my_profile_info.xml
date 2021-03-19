@@ -33,15 +33,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_image" />
 
-    <ImageView
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:layout_width="130dp"
+        android:layout_height="150dp"
         android:id="@+id/profile_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginStart="17dp"
         android:layout_marginTop="15dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttons"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:civ_border_color="#FFFFFF"
+        app:civ_border_width="1dp"
+        app:civ_shadow="true"
+        app:civ_shadow_radius="5dp"
+        app:civ_shadow_color="#3f51b5"/>
+
+
 
     <TextView
         android:id="@+id/profile_first_name"
@@ -181,5 +187,5 @@
         android:layout_marginTop="40dp"
         app:layout_constraintStart_toEndOf="@+id/profile_image"
         app:layout_constraintTop_toBottomOf="@+id/buttons"
-        app:srcCompat="@drawable/ic_baseline_emoji_events_24" />
+        app:srcCompat="@drawable/ic_outline_emoji_events_24" />
 </androidx.constraintlayout.widget.ConstraintLayout>
