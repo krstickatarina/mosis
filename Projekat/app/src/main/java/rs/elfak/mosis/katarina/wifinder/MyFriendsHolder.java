@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class MyFriendsHolder extends RecyclerView.ViewHolder {
 
     ImageView profileImage;
-    TextView friendsName, friendsUsername;
+    TextView friendsName, friendsUsername, friendsID;
     RelativeLayout relativeLayout, relativeLayout2;
     Button viewProfile, deleteFriend;
 
@@ -25,5 +25,6 @@ public class MyFriendsHolder extends RecyclerView.ViewHolder {
         relativeLayout2 = itemView.findViewById(R.id.profile_friends_relativeLayout);
         viewProfile = itemView.findViewById(R.id.profile_friend_viewProfile);
         deleteFriend = itemView.findViewById(R.id.profile_friends_deleteFriend);
+        friendsID = itemView.findViewById(R.id.profile_friend_id);
     }
 }

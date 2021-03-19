@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 FirebaseUser mFirebaseUser = fAuth.getCurrentUser();
                 if(mFirebaseUser != null)
                 {
-                    if(mFirebaseUser.getUid()!=adminID)
+                    if(!mFirebaseUser.getUid().equals(adminID))
                         startActivity(new Intent(MainActivity.this, HomeActivity.class));
                     else
                         startActivity(new Intent(MainActivity.this, MapsActivity.class));
@@ -64,25 +64,42 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String emailAddressString = emailAddress.getText().toString();
                 String passwordString = password.getText().toString();
-                fAuth.signInWithEmailAndPassword(emailAddressString, passwordString).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(!task.isSuccessful())
-                        {
-                            Toast.makeText(MainActivity.this, "Login unsuccessful!", Toast.LENGTH_SHORT).show();
-                        }
-                        else
-                        {
-                            Toast.makeText(MainActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
-                            if(emailAddressString.equals("admin123@gmail.com"))
+                if(!emailAddressString.isEmpty() && !passwordString.isEmpty())
+                {
+                    fAuth.signInWithEmailAndPassword(emailAddressString, passwordString).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(!task.isSuccessful())
                             {
-                                startActivity(new Intent(MainActivity.this, MapsActivity.class));
+                                Toast.makeText(MainActivity.this, "Login unsuccessful!", Toast.LENGTH_SHORT).show();
                             }
                             else
-                                startActivity(new Intent(MainActivity.this, HomeActivity.class));
+                            {
+                                Toast.makeText(MainActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
+                                if(emailAddressString.equals("admin123@gmail.com"))
+                                {
+                                    startActivity(new Intent(MainActivity.this, MapsActivity.class));
+                                }
+                                else
+                                    startActivity(new Intent(MainActivity.this, HomeActivity.class));
+                            }
                         }
+                    });
+                }
+                else
+                {
+                    if(emailAddressString.isEmpty())
+                    {
+                        emailAddress.setError("E-mail address is required!");
+                        emailAddress.requestFocus();
                     }
-                });
+                    if(passwordString.isEmpty())
+                    {
+                        password.setError("Password is required!");
+                        password.requestFocus();
+                    }
+                    Toast.makeText(MainActivity.this, "Please enter all required fields!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

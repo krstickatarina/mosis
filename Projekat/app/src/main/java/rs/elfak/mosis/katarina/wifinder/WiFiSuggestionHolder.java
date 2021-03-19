@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class WiFiSuggestionHolder extends RecyclerView.ViewHolder {
 
-    TextView wiFiPasswordSuggestion;
+    TextView wiFiPasswordSuggestion, wiFiPasswordSuggestionsID;
     RelativeLayout relativeLayout, relativeLayoutAll;
     Button acceptBtn, denyBtn;
 
@@ -22,5 +22,6 @@ public class WiFiSuggestionHolder extends RecyclerView.ViewHolder {
         relativeLayoutAll = itemView.findViewById(R.id.oneWiFiSuggestion_relativeLayoutAll);
         acceptBtn = itemView.findViewById(R.id.oneWiFiSuggestion_acceptSuggestion);
         denyBtn = itemView.findViewById(R.id.oneWiFiSuggestion_denySuggestion);
+        wiFiPasswordSuggestionsID = itemView.findViewById(R.id.oneWiFiSuggestion_id);
     }
 }

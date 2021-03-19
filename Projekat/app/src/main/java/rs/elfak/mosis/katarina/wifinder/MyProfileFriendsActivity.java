@@ -41,6 +41,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.HashMap;
+
 public class MyProfileFriendsActivity extends AppCompatActivity {
 
     Button profileInfo, profileFriends;
@@ -105,6 +107,7 @@ public class MyProfileFriendsActivity extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(@NonNull MyFriendsHolder holder, int position, @NonNull User model) {
                 usersID = getRef(position).getKey();
+                holder.friendsID.setText(usersID);
                 holder.friendsName.setText(model.getFirstName()+" "+model.getLastName());
                 holder.friendsUsername.setText("@"+model.getUsername());
                 storageReference.child(usersID).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -142,8 +145,9 @@ public class MyProfileFriendsActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         holder.relativeLayout2.setVisibility(View.GONE);
+                        //Toast.makeText(MyProfileFriendsActivity.this, holder.friendsID.getText().toString(), Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(MyProfileFriendsActivity.this, FriendsProfileActivity.class);
-                        intent.putExtra("usersID", usersID);
+                        intent.putExtra("usersID", holder.friendsID.getText().toString());
                         intent.putExtra("backActivity", "MyProfileFriends");
                         startActivity(intent);
                     }
@@ -152,8 +156,8 @@ public class MyProfileFriendsActivity extends AppCompatActivity {
                 holder.deleteFriend.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        friendshipsReference.child(usersID).removeValue();
-                        friendshipsReference.getParent().child(usersID).child(currentUsersID).removeValue();
+                        friendshipsReference.child(holder.friendsID.getText().toString()).removeValue();
+                        friendshipsReference.getParent().child(holder.friendsID.getText().toString()).child(currentUsersID).removeValue();
                         wifiPasswords.orderByChild("userThatDiscoveredThisPasswordID").equalTo(currentUsersID).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -174,7 +178,7 @@ public class MyProfileFriendsActivity extends AppCompatActivity {
                             }
                         });
 
-                        wifiPasswords.orderByChild("userThatDiscoveredThisPasswordID").equalTo(usersID).addValueEventListener(new ValueEventListener() {
+                        wifiPasswords.orderByChild("userThatDiscoveredThisPasswordID").equalTo(holder.friendsID.getText().toString()).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 if(snapshot.exists())

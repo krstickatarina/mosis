@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +43,7 @@ public class WiFiSuggestionsOfAPlaceActivity extends AppCompatActivity {
     CurrentLocation location;
     String keyOfAPlace;
     Button denyAll;
+    boolean b = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +98,7 @@ public class WiFiSuggestionsOfAPlaceActivity extends AppCompatActivity {
         denyAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteAllWiFiSuggestionsWithGivenName();
+                deleteAllWiFiSuggestionsOnSameLocation();
             }
         });
 
@@ -104,71 +106,92 @@ public class WiFiSuggestionsOfAPlaceActivity extends AppCompatActivity {
 
     private void LoadWiFiSuggestions()
     {
-        query = FirebaseDatabase.getInstance().getReference().child("WiFiSuggestions").orderByChild("name").equalTo(nameOfAPlace.getText().toString());
+        //query = FirebaseDatabase.getInstance().getReference().child("WiFiSuggestions").orderByChild("name").equalTo(nameOfAPlace.getText().toString());
+        query = FirebaseDatabase.getInstance().getReference().child("WiFiSuggestions");
         options = new FirebaseRecyclerOptions.Builder<WiFiPasswordSuggestion>().setQuery(query, WiFiPasswordSuggestion.class).build();
         adapter = new FirebaseRecyclerAdapter<WiFiPasswordSuggestion, WiFiSuggestionHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull WiFiSuggestionHolder holder, int position, @NonNull WiFiPasswordSuggestion model) {
-                holder.wiFiPasswordSuggestion.setText(model.getWiFiPasswordSuggestion());
-                holder.relativeLayoutAll.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        holder.relativeLayout.setVisibility(View.VISIBLE);
-                    }
-                });
+                if(model.getLocation().getLatitude() == latitude && model.getLocation().getLongitude() == longitude)
+                {
+                    holder.wiFiPasswordSuggestion.setText(model.getWiFiPasswordSuggestion());
+                    holder.wiFiPasswordSuggestionsID.setText(getRef(position).getKey());
 
-                holder.denyBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        FirebaseDatabase.getInstance().getReference().child("WiFiSuggestions").child(getRef(position).getKey()).removeValue();
-                    }
-                });
+                    holder.relativeLayoutAll.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            holder.relativeLayout.setVisibility(View.VISIBLE);
+                        }
+                    });
 
-                holder.acceptBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        FirebaseDatabase.getInstance().getReference().child("WifiPasswords").orderByChild("name").equalTo(nameOfAPlace.getText().toString()).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if(snapshot.exists())
-                                {
-                                    for(DataSnapshot s:snapshot.getChildren())
+                    holder.denyBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            FirebaseDatabase.getInstance().getReference().child("WiFiSuggestions").child(holder.wiFiPasswordSuggestionsID.getText().toString()).removeValue();
+                        }
+                    });
+
+                    holder.acceptBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            FirebaseDatabase.getInstance().getReference().child("WifiPasswords").addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if(snapshot.exists())
                                     {
-                                        FirebaseDatabase.getInstance().getReference().child("WifiPasswords").child(s.getKey()).setValue(new WiFiPassword(model.getName(), model.getLocation(), model.getWiFiPasswordSuggestion(), model.getUserSuggesterID()));
+                                        for(DataSnapshot s:snapshot.getChildren())
+                                        {
+                                            if(s.getValue(WiFiPasswordSuggestion.class).getLocation().getLatitude() == latitude &&
+                                            s.getValue(WiFiPasswordSuggestion.class).getLocation().getLongitude() == longitude)
+                                            {
+                                                FirebaseDatabase.getInstance().getReference().child("WifiPasswords").child(s.getKey()).setValue(new WiFiPassword(model.getName(), model.getLocation(), model.getWiFiPasswordSuggestion(), model.getUserSuggesterID()));
+                                                b = false;
+                                            }
+                                        }
+                                    }
+                                    if(b)
+                                    {
+                                        keyOfAPlace = FirebaseDatabase.getInstance().getReference().child("WifiPasswords").push().getKey();
+                                        FirebaseDatabase.getInstance().getReference().child("WifiPasswords").child(keyOfAPlace).setValue(new WiFiPassword(model.getName(), model.getLocation(), model.getWiFiPasswordSuggestion(), model.getUserSuggesterID()));
+                                        //deleteAllWiFiSuggestionsOnSameLocation();
                                     }
                                 }
-                                else
-                                {
-                                    keyOfAPlace = FirebaseDatabase.getInstance().getReference().child("WifiPasswords").push().getKey();
-                                    FirebaseDatabase.getInstance().getReference().child("WifiPasswords").child(keyOfAPlace).setValue(new WiFiPassword(model.getName(), model.getLocation(), model.getWiFiPasswordSuggestion(), model.getUserSuggesterID()));
-                                    deleteAllWiFiSuggestionsWithGivenName();
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
                                 }
-                            }
+                            });
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-                        FirebaseDatabase.getInstance().getReference().child("WiFiSuggestions").orderByChild("name").equalTo(nameOfAPlace.getText().toString()).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if(snapshot.exists())
-                                {
-                                    for(DataSnapshot d:snapshot.getChildren())
+                            FirebaseDatabase.getInstance().getReference().child("WiFiSuggestions").addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if(snapshot.exists())
                                     {
-                                        FirebaseDatabase.getInstance().getReference().child("WiFiSuggestions").child(d.getKey()).removeValue();
+                                        for(DataSnapshot d:snapshot.getChildren())
+                                        {
+                                            if(d.getValue(WiFiPasswordSuggestion.class).getLocation().getLatitude() == latitude &&
+                                            d.getValue(WiFiPasswordSuggestion.class).getLocation().getLongitude() == longitude)
+                                            {
+                                                FirebaseDatabase.getInstance().getReference().child("WiFiSuggestions").child(d.getKey()).removeValue();
+                                            }
+                                        }
                                     }
                                 }
-                            }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
 
-                            }
-                        });
-                    }
-                });
+                                }
+                            });
+                        }
+                    });
+                }
+                else
+                {
+                    holder.relativeLayoutAll.setVisibility(View.GONE);
+                    holder.relativeLayoutAll.setLayoutParams(new RelativeLayout.LayoutParams(0, 0));
+                }
             }
 
             @NonNull
@@ -182,16 +205,20 @@ public class WiFiSuggestionsOfAPlaceActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    private void deleteAllWiFiSuggestionsWithGivenName()
+    private void deleteAllWiFiSuggestionsOnSameLocation()
     {
-        FirebaseDatabase.getInstance().getReference().child("WiFiSuggestions").orderByChild("name").equalTo(nameOfAPlace.getText().toString()).addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("WiFiSuggestions").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists())
                 {
                     for(DataSnapshot s:snapshot.getChildren())
                     {
-                        FirebaseDatabase.getInstance().getReference().child("WiFiSuggestions").child(s.getKey()).removeValue();
+                        if(s.getValue(WiFiPasswordSuggestion.class).getLocation().getLongitude() == longitude &&
+                        s.getValue(WiFiPasswordSuggestion.class).getLocation().getLatitude() == latitude)
+                        {
+                            FirebaseDatabase.getInstance().getReference().child("WiFiSuggestions").child(s.getKey()).removeValue();
+                        }
                     }
                 }
             }
