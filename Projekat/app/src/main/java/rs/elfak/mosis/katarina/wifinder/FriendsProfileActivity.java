@@ -52,7 +52,6 @@ public class FriendsProfileActivity extends AppCompatActivity {
     StorageReference storageReference;
     String backID;
 
-    //List of friends
     FirebaseRecyclerAdapter<User, FriendsOfAFriendHolder> adapter;
     FirebaseRecyclerOptions<User> options;
     RecyclerView recyclerView;
@@ -327,7 +326,6 @@ public class FriendsProfileActivity extends AppCompatActivity {
         {
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(FriendsProfileActivity.this, MainActivity.class));
-            finish();
         }
         return super.onOptionsItemSelected(item);
     }

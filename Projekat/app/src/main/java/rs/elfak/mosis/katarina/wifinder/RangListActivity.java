@@ -57,11 +57,6 @@ public class RangListActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_ios_24);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ActionBar actionBar;
-        actionBar = getSupportActionBar();
-        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#EEB245"));
-        actionBar.setBackgroundDrawable(colorDrawable);
-
         query = FirebaseDatabase.getInstance().getReference().child("Users").orderByChild("numberOfTokens");
         storageReference = FirebaseStorage.getInstance().getReference().child("profile_images");
         recyclerView = findViewById(R.id.recyclerViewRangList);
@@ -174,7 +169,6 @@ public class RangListActivity extends AppCompatActivity {
         {
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(RangListActivity.this, MainActivity.class));
-            finish();
         }
         return super.onOptionsItemSelected(item);
     }

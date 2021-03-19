@@ -43,11 +43,6 @@ public class AddNewObjectOnMapActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_ios_24);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ActionBar actionBar;
-        actionBar = getSupportActionBar();
-        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#EEB245"));
-        actionBar.setBackgroundDrawable(colorDrawable);
-
         editTextLatitude = findViewById(R.id.editText_latitudeOfObject);
         editTextLongitude = findViewById(R.id.editText_longitudeOfObject);
         editTextName = findViewById(R.id.editText_nameOfLocation);
@@ -125,7 +120,6 @@ public class AddNewObjectOnMapActivity extends AppCompatActivity {
         {
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(AddNewObjectOnMapActivity.this, MainActivity.class));
-            finish();
         }
         return super.onOptionsItemSelected(item);
     }

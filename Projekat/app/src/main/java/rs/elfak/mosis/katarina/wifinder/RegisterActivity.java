@@ -59,11 +59,6 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        ActionBar actionBar;
-        actionBar = getSupportActionBar();
-        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#EEB245"));
-        actionBar.setBackgroundDrawable(colorDrawable);
-
         firstName = findViewById(R.id.register_firstname);
         lastName = findViewById(R.id.register_lastname);
         username = findViewById(R.id.register_username);
@@ -75,7 +70,6 @@ public class RegisterActivity extends AppCompatActivity {
         loginTextView = findViewById(R.id.register_gotologin_textview);
         uploadImage = findViewById(R.id.register_imageView);
 
-        //registerBtn.setBackgroundColor(Color.parseColor("#EEB245"));
         uploadImage.setImageResource(R.drawable.ic_baseline_image_24);
 
         fAuth = FirebaseAuth.getInstance();
@@ -124,7 +118,6 @@ public class RegisterActivity extends AppCompatActivity {
                                 storeImage(id);
                                 Toast.makeText(RegisterActivity.this, "You have registered successfully!", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(RegisterActivity.this, HomeActivity.class));
-                                finish();
                             }
                         }
                     });
@@ -165,7 +158,6 @@ public class RegisterActivity extends AppCompatActivity {
                     {
                         Toast.makeText(RegisterActivity.this, "Please upload your profile image!", Toast.LENGTH_SHORT).show();
                     }
-                    //Toast.makeText(RegisterActivity.this, "Please enter all requested fields!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -174,7 +166,6 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(RegisterActivity.this, MainActivity.class));
-                finish();
             }
         });
     }

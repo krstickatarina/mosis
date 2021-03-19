@@ -112,7 +112,6 @@ public class EditMyProfileInfoActivity extends AppCompatActivity {
         {
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(EditMyProfileInfoActivity.this, MainActivity.class));
-            finish();
         }
         return super.onOptionsItemSelected(item);
     }

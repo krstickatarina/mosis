@@ -462,8 +462,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                             @Override
                             public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                                Bitmap smallMarker = Bitmap.createScaledBitmap(resource, 100, 100, false);
                                 Marker newMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(value.getMyLocation().getLatitude(), value.getMyLocation().getLongitude()))
-                                                                                    .icon(BitmapDescriptorFactory.fromBitmap(resource)));
+                                                                                    .icon(BitmapDescriptorFactory.fromBitmap(smallMarker)));
                                 if(friendOrMe.equals("me"))
                                 {
                                     newMarker.setTitle("I am here!");
@@ -907,7 +908,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         {
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(MapsActivity.this, MainActivity.class));
-            finish();
         }
         return super.onOptionsItemSelected(item);
     }

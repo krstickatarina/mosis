@@ -56,11 +56,6 @@ public class UsersProfileActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_ios_24);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ActionBar actionBar;
-        actionBar = getSupportActionBar();
-        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#EEB245"));
-        actionBar.setBackgroundDrawable(colorDrawable);
-
         Bundle extras = getIntent().getExtras();
         if(extras!=null)
         {
@@ -94,6 +89,8 @@ public class UsersProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(sentFriendRequest.equals("Accept"))
                 {
+                    sendCancelFriendRequest.setVisibility(View.GONE);
+                    declineFriendRequest.setVisibility(View.GONE);
                     friendRequestsReference.child(currentUsersID).child(usersID).removeValue();
                     friendshipsReference.child(currentUsersID).child(usersID).setValue(userProfile);
                     friendshipsReference.child(usersID).child(currentUsersID).setValue(currentUser);
@@ -187,7 +184,6 @@ public class UsersProfileActivity extends AppCompatActivity {
                 if(snapshot.exists())
                 {
                     userProfile = snapshot.child(usersID).getValue(User.class);
-                    Toast.makeText(UsersProfileActivity.this, userProfile.getUsername(), Toast.LENGTH_SHORT).show();
                     usersUsername.setText("@"+userProfile.getUsername());
                     usersNumberOfTokens.setText(String.valueOf(-1*userProfile.getNumberOfTokens())+" tokens");
                     storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -311,7 +307,6 @@ public class UsersProfileActivity extends AppCompatActivity {
         {
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(UsersProfileActivity.this, MainActivity.class));
-            finish();
         }
         return super.onOptionsItemSelected(item);
     }

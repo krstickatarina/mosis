@@ -130,13 +130,6 @@ public class MyProfileFriendsActivity extends AppCompatActivity {
                     }
                 });
 
-                holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(MyProfileFriendsActivity.this, usersID, Toast.LENGTH_SHORT).show();
-                    }
-                });
-
                 holder.relativeLayout.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
@@ -228,13 +221,12 @@ public class MyProfileFriendsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(android.R.id.home==item.getItemId())
         {
-            startActivity(new Intent(MyProfileFriendsActivity.this, MyProfileInfoActivity.class));
+            startActivity(new Intent(MyProfileFriendsActivity.this, HomeActivity.class));
         }
         else if(item.getItemId() == R.id.logOut_btn)
         {
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(MyProfileFriendsActivity.this, MainActivity.class));
-            finish();
         }
         return super.onOptionsItemSelected(item);
     }

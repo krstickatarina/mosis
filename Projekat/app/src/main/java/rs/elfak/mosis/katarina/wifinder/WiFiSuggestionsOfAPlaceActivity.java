@@ -51,11 +51,6 @@ public class WiFiSuggestionsOfAPlaceActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_ios_24);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ActionBar actionBar;
-        actionBar = getSupportActionBar();
-        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#EEB245"));
-        actionBar.setBackgroundDrawable(colorDrawable);
-
         Bundle extras = getIntent().getExtras();
         if(extras!=null)
         {
@@ -145,7 +140,6 @@ public class WiFiSuggestionsOfAPlaceActivity extends AppCompatActivity {
                                 else
                                 {
                                     keyOfAPlace = FirebaseDatabase.getInstance().getReference().child("WifiPasswords").push().getKey();
-                                    Toast.makeText(WiFiSuggestionsOfAPlaceActivity.this, keyOfAPlace, Toast.LENGTH_SHORT).show();
                                     FirebaseDatabase.getInstance().getReference().child("WifiPasswords").child(keyOfAPlace).setValue(new WiFiPassword(model.getName(), model.getLocation(), model.getWiFiPasswordSuggestion(), model.getUserSuggesterID()));
                                     deleteAllWiFiSuggestionsWithGivenName();
                                 }
@@ -226,7 +220,6 @@ public class WiFiSuggestionsOfAPlaceActivity extends AppCompatActivity {
         {
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(WiFiSuggestionsOfAPlaceActivity.this, MainActivity.class));
-            finish();
         }
         return super.onOptionsItemSelected(item);
     }

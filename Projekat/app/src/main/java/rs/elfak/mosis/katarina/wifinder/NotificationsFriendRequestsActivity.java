@@ -60,11 +60,6 @@ public class NotificationsFriendRequestsActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_ios_24);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ActionBar actionBar;
-        actionBar = getSupportActionBar();
-        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#EEB245"));
-        actionBar.setBackgroundDrawable(colorDrawable);
-
         relativeLayout = findViewById(R.id.notifications_secondRelativeLayout);
         relativeLayout.setBackgroundColor(Color.parseColor("#FFFF66"));
         recyclerView = findViewById(R.id.recyclerViewNotifications);
@@ -181,12 +176,6 @@ public class NotificationsFriendRequestsActivity extends AppCompatActivity {
 
     private void exchangeWiFiPasswords(String user2ID)
     {
-        /*friendRequestsReference.child(user2ID).removeValue();
-        friendshipsReference.child(currentUsersID).child(user2ID).setValue(model);
-        friendshipsReference.child(user2ID).child(currentUsersID).setValue(currentUser);*/
-
-        //String user2 = getRef(position).getKey();
-
         wiFiPasswords.orderByChild("userThatDiscoveredThisPasswordID").equalTo(currentUsersID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -194,7 +183,6 @@ public class NotificationsFriendRequestsActivity extends AppCompatActivity {
                 {
                     for(DataSnapshot d:snapshot.getChildren())
                     {
-                        Toast.makeText(NotificationsFriendRequestsActivity.this, user2ID+"", Toast.LENGTH_SHORT).show();
                         WiFiPassword wiFiPassword = d.getValue(WiFiPassword.class);
                         if(!wiFiPassword.getUsersThatKnowsThisPasswordID().contains(user2ID))
                         {
@@ -252,7 +240,6 @@ public class NotificationsFriendRequestsActivity extends AppCompatActivity {
         {
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(NotificationsFriendRequestsActivity.this, MainActivity.class));
-            finish();
         }
         return super.onOptionsItemSelected(item);
     }

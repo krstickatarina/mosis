@@ -30,17 +30,13 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth fAuth=FirebaseAuth.getInstance();
     private FirebaseAuth.AuthStateListener fAuthStateListener;
+    private String adminID = "npGXbgIrWsfyioefTknKcihx1Qc2";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        ActionBar actionBar;
-        actionBar = getSupportActionBar();
-        ColorDrawable colorDrawable
-                = new ColorDrawable(Color.parseColor("#EEB245"));
-        actionBar.setBackgroundDrawable(colorDrawable);
 
         fAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -48,8 +44,10 @@ public class MainActivity extends AppCompatActivity {
                 FirebaseUser mFirebaseUser = fAuth.getCurrentUser();
                 if(mFirebaseUser != null)
                 {
-                    startActivity(new Intent(MainActivity.this, RangListActivity.class));
-                    //finish();
+                    if(mFirebaseUser.getUid()!=adminID)
+                        startActivity(new Intent(MainActivity.this, HomeActivity.class));
+                    else
+                        startActivity(new Intent(MainActivity.this, MapsActivity.class));
                 }
             }
         };
@@ -76,8 +74,12 @@ public class MainActivity extends AppCompatActivity {
                         else
                         {
                             Toast.makeText(MainActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(MainActivity.this, HomeActivity.class));
-                            finish();
+                            if(emailAddressString.equals("admin123@gmail.com"))
+                            {
+                                startActivity(new Intent(MainActivity.this, MapsActivity.class));
+                            }
+                            else
+                                startActivity(new Intent(MainActivity.this, HomeActivity.class));
                         }
                     }
                 });
@@ -88,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, RegisterActivity.class));
-                finish();
             }
         });
     }

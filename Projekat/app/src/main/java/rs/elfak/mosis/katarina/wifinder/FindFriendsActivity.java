@@ -64,11 +64,6 @@ public class FindFriendsActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_ios_24);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ActionBar actionBar;
-        actionBar = getSupportActionBar();
-        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#EEB245"));
-        actionBar.setBackgroundDrawable(colorDrawable);
-
         editTextNameOfAPerson = findViewById(R.id.findFriends_searchFriend_editText);
         searchPersonImageView = findViewById(R.id.findFriends_searchFriend_imageButton);
 
@@ -199,7 +194,6 @@ public class FindFriendsActivity extends AppCompatActivity {
         {
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(FindFriendsActivity.this, MainActivity.class));
-            finish();
         }
         return super.onOptionsItemSelected(item);
     }
