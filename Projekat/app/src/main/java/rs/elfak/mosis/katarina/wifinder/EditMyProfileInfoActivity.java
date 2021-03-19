@@ -77,7 +77,9 @@ public class EditMyProfileInfoActivity extends AppCompatActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(EditMyProfileInfoActivity.this, MyProfileInfoActivity.class));
+                Intent intent = new Intent(EditMyProfileInfoActivity.this, MyProfileInfoActivity.class);
+                intent.putExtra("backActivity", "HomeActivity");
+                startActivity(intent);
             }
         });
 
@@ -89,7 +91,9 @@ public class EditMyProfileInfoActivity extends AppCompatActivity {
                                     numberOfTokens);
                 usersReference.setValue(user);
                 Toast.makeText(EditMyProfileInfoActivity.this, "Changes successfully saved!", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(EditMyProfileInfoActivity.this, MyProfileInfoActivity.class));
+                Intent intent = new Intent(EditMyProfileInfoActivity.this, MyProfileInfoActivity.class);
+                intent.putExtra("backActivity", "HomeActivity");
+                startActivity(intent);
             }
         });
 
@@ -106,7 +110,9 @@ public class EditMyProfileInfoActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home)
         {
-            startActivity(new Intent(EditMyProfileInfoActivity.this, MyProfileInfoActivity.class));
+            Intent intent = new Intent(EditMyProfileInfoActivity.this, MyProfileInfoActivity.class);
+            intent.putExtra("backActivity", "HomeActivity");
+            startActivity(intent);
         }
         else if(item.getItemId() == R.id.logOut_btn)
         {
