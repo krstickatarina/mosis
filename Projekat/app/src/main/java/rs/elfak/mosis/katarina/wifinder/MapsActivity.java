@@ -98,6 +98,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private EditText editTextRadius;
     private Button btnRadius;
     private Circle radiusCircle;
+    private boolean b = false, b1=false;
 
     //Notifications
     private ArrayList<String> arrayListUserIds = new ArrayList<String>();
@@ -659,7 +660,31 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onInfoWindowLongClick(Marker marker) {
                 if(marker.getTitle().equals("Costs 50 tokens"))
                 {
-                    checkIfCurrentUserCanBuyThisPassword(wiFiPassword, wiFiPasswordKey);
+                    b=true;
+                    //b1=true;
+                    wifiPasswordsReference.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                           if(snapshot.exists())
+                           {
+                               for(DataSnapshot d:snapshot.getChildren())
+                               {
+                                   if(d.getValue(WiFiPassword.class).getLocation().getLongitude() == marker.getPosition().longitude
+                                   && d.getValue(WiFiPassword.class).getLocation().getLatitude() == marker.getPosition().latitude)
+                                   {
+                                       checkIfCurrentUserCanBuyThisPassword(d.getValue(WiFiPassword.class), d.getKey());
+                                       break;
+                                   }
+                               }
+                           }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                    //checkIfCurrentUserCanBuyThisPassword(marker);
                 }
             }
         });
@@ -683,25 +708,30 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists())
                 {
-                    if(snapshot.getValue(User.class).getNumberOfTokens()<=-50)
+                    if(b)
                     {
-                        User newUser = new User(snapshot.getValue(User.class).getFirstName(),
-                                snapshot.getValue(User.class).getLastName(),
-                                snapshot.getValue(User.class).getUsername(),
-                                snapshot.getValue(User.class).getEmailAddress(),
-                                snapshot.getValue(User.class).getPassword(),
-                                snapshot.getValue(User.class).getPhoneNumber(),
-                                snapshot.getValue(User.class).getNumberOfTokens()+50);
-                        currentUserReference.setValue(newUser);
-                        addTokensToTheOtherUser(wiFiPassword, wiFiPasswordKey);
-                        addUserToListOfUsersThatKnowsPassword(wiFiPassword, wiFiPasswordKey);
-                        Toast.makeText(MapsActivity.this, "You have successfully unlocked this password!", Toast.LENGTH_SHORT).show();
-                        Marker marker = mapMarkers.get(wiFiPasswordKey);
-                        marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                        marker.setTitle(wiFiPassword.getWifiPassword());
+                        if(snapshot.getValue(User.class).getNumberOfTokens()<=-50)
+                        {
+                            Toast.makeText(MapsActivity.this, wiFiPasswordKey, Toast.LENGTH_SHORT).show();
+                            User newUser = new User(snapshot.getValue(User.class).getFirstName(),
+                                    snapshot.getValue(User.class).getLastName(),
+                                    snapshot.getValue(User.class).getUsername(),
+                                    snapshot.getValue(User.class).getEmailAddress(),
+                                    snapshot.getValue(User.class).getPassword(),
+                                    snapshot.getValue(User.class).getPhoneNumber(),
+                                    snapshot.getValue(User.class).getNumberOfTokens()+50);
+                            currentUserReference.setValue(newUser);
+                            addTokensToTheOtherUser(wiFiPassword, wiFiPasswordKey);
+                            addUserToListOfUsersThatKnowsPassword(wiFiPassword, wiFiPasswordKey);
+                            //Toast.makeText(MapsActivity.this, "You have successfully unlocked this password!", Toast.LENGTH_SHORT).show();
+                            Marker marker = mapMarkers.get(wiFiPasswordKey);
+                            marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                            marker.setTitle(wiFiPassword.getWifiPassword());
+                        }
+                        else
+                            Toast.makeText(MapsActivity.this, "You don't have enough tokens to unlock this password!", Toast.LENGTH_SHORT).show();
+                        b=false;
                     }
-                    else
-                        Toast.makeText(MapsActivity.this, "You don't have enough tokens to unlock this password!", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -725,14 +755,18 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists())
                 {
-                    User newUser = new User(snapshot.getValue(User.class).getFirstName(),
-                            snapshot.getValue(User.class).getLastName(),
-                            snapshot.getValue(User.class).getUsername(),
-                            snapshot.getValue(User.class).getEmailAddress(),
-                            snapshot.getValue(User.class).getPassword(),
-                            snapshot.getValue(User.class).getPhoneNumber(),
-                            snapshot.getValue(User.class).getNumberOfTokens()-50);
-                    currentUserReference.getParent().child(wiFiPassword.getUserThatDiscoveredThisPasswordID()).setValue(newUser);
+                    //if(b1)
+                    //{
+                        User newUser = new User(snapshot.getValue(User.class).getFirstName(),
+                                snapshot.getValue(User.class).getLastName(),
+                                snapshot.getValue(User.class).getUsername(),
+                                snapshot.getValue(User.class).getEmailAddress(),
+                                snapshot.getValue(User.class).getPassword(),
+                                snapshot.getValue(User.class).getPhoneNumber(),
+                                snapshot.getValue(User.class).getNumberOfTokens()-50);
+                        currentUserReference.getParent().child(wiFiPassword.getUserThatDiscoveredThisPasswordID()).setValue(newUser);
+                        b1=false;
+                    //}
                 }
             }
 
