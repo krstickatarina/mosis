@@ -146,13 +146,12 @@ public class FriendsProfileActivity extends AppCompatActivity {
                 {
                     nameForSearchFriendsString = "";
                     Toast.makeText(FriendsProfileActivity.this, "Please enter username of a friend you are searching for!", Toast.LENGTH_SHORT).show();
-                    LoadFriendsOfAFriend();
                 }
                 else
                 {
                     nameForSearchFriendsString = nameForSearchFriends.getText().toString();
-                    LoadFriendsOfAFriend();
                 }
+                LoadFriendsOfAFriend();
             }
         });
 
@@ -246,36 +245,41 @@ public class FriendsProfileActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         if(currentUsersID.equals(thisUsersID))
                         {
-                            startActivity(new Intent(FriendsProfileActivity.this, MyProfileInfoActivity.class));
+                            Intent intent = new Intent(FriendsProfileActivity.this, MyProfileInfoActivity.class);
+                            intent.putExtra("backActivity", "HomeActivity");
+                            startActivity(intent);
                         }
-                        friendshipsReference.getParent().child(currentUsersID).orderByKey().equalTo(thisUsersID).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if(snapshot.exists())
-                                {
-                                    for(DataSnapshot d:snapshot.getChildren())
+                        else
+                        {
+                            friendshipsReference.getParent().child(currentUsersID).orderByKey().equalTo(thisUsersID).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if(snapshot.exists())
                                     {
-                                        Intent intent = new Intent(FriendsProfileActivity.this, FriendsProfileActivity.class);
+                                        for(DataSnapshot d:snapshot.getChildren())
+                                        {
+                                            Intent intent = new Intent(FriendsProfileActivity.this, FriendsProfileActivity.class);
+                                            intent.putExtra("usersID", thisUsersID);
+                                            intent.putExtra("backActivity", "FriendsProfileActivity");
+                                            startActivity(intent);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Intent intent = new Intent(FriendsProfileActivity.this, UsersProfileActivity.class);
                                         intent.putExtra("usersID", thisUsersID);
+                                        intent.putExtra("backID", usersID);
                                         intent.putExtra("backActivity", "FriendsProfileActivity");
                                         startActivity(intent);
                                     }
                                 }
-                                else
-                                {
-                                    Intent intent = new Intent(FriendsProfileActivity.this, UsersProfileActivity.class);
-                                    intent.putExtra("usersID", thisUsersID);
-                                    intent.putExtra("backID", usersID);
-                                    intent.putExtra("backActivity", "FriendsProfileActivity");
-                                    startActivity(intent);
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
                                 }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
+                            });
+                        }
                     }
                 });
             }

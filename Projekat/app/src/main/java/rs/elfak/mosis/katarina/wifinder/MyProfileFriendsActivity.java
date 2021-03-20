@@ -93,7 +93,14 @@ public class MyProfileFriendsActivity extends AppCompatActivity {
         searchFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nameToSearchString = nameToSearch.getText().toString();
+                if(nameToSearch.getText().toString().isEmpty())
+                {
+                    nameToSearchString = "";
+                }
+                else
+                {
+                    nameToSearchString = nameToSearch.getText().toString();
+                }
                 LoadAllMyFriends();
             }
         });

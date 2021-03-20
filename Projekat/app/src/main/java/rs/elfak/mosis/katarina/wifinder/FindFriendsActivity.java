@@ -79,15 +79,13 @@ public class FindFriendsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(editTextNameOfAPerson.getText().toString().isEmpty())
                 {
-                    Toast.makeText(FindFriendsActivity.this, "You have to enter username of a person you are searching for.", Toast.LENGTH_SHORT).show();
-                    editTextNameOfAPerson.setError("Username is required!");
-                    editTextNameOfAPerson.requestFocus();
+                    personsUserNameString = "";
                 }
                 else
                 {
                     personsUserNameString = editTextNameOfAPerson.getText().toString();
-                    LoadUsersThatHaveWantedUsername();
                 }
+                LoadUsersThatHaveWantedUsername();
             }
         });
     }
