@@ -7,17 +7,20 @@
     android:background="@drawable/orange_gradient_top_down"
     tools:context=".FriendsProfileActivity">
 
-    <ImageView
+    <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/friends_profile_user_image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_width="130dp"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="140dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:civ_border_color="#FFFFFF"
+        app:civ_border_width="1dp"
+        app:civ_shadow="true"
+        app:civ_shadow_color="#3f51b5"
+        app:civ_shadow_radius="5dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/friends_profile_username_fixed"
@@ -83,20 +86,20 @@
         android:id="@+id/friends_profile_champ_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
+        android:layout_marginStart="108dp"
         android:layout_marginTop="33dp"
-        app:layout_constraintStart_toEndOf="@+id/friends_profile_points"
+        app:layout_constraintStart_toEndOf="@+id/friends_profile_username_fixed"
         app:layout_constraintTop_toBottomOf="@+id/friends_profile_user_image"
-        app:srcCompat="@drawable/ic_baseline_emoji_events_24" />
+        app:srcCompat="@drawable/ic_outline_emoji_events_24" />
 
     <TextView
         android:id="@+id/friends_profile_points_fixed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="36dp"
         android:text="@string/profile_points_text"
-        app:layout_constraintStart_toEndOf="@+id/friends_profile_username"
+        app:layout_constraintStart_toEndOf="@+id/friends_profile_champ_image"
         app:layout_constraintTop_toBottomOf="@+id/friends_profile_user_image" />
 
     <TextView
@@ -111,14 +114,13 @@
 
     <CheckBox
         android:id="@+id/friends_profile_checkbox"
-        android:layout_width="90dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="56dp"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="106dp"
         android:layout_marginTop="16dp"
-        android:background="@color/white"
         android:checked="true"
         android:text="@string/friends_profile_check"
-        app:layout_constraintStart_toEndOf="@+id/friends_profile_last_name"
+        app:layout_constraintStart_toEndOf="@+id/friends_profile_last_name_fixed"
         app:layout_constraintTop_toBottomOf="@+id/friends_profile_champ_image" />
 
     <EditText
@@ -135,8 +137,8 @@
 
     <ImageView
         android:id="@+id/friends_profile_search_button"
-        android:layout_width="56dp"
-        android:layout_height="46dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginTop="108dp"
         app:layout_constraintStart_toEndOf="@+id/friends_profile_search_friends"
         app:layout_constraintTop_toBottomOf="@+id/friends_profile_points_fixed"

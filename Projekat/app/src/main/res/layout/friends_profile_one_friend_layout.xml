@@ -1,31 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="5dp"
-    android:background="@color/black"
     android:layout_height="wrap_content">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@drawable/rang_rounded_corners"
         android:layout_margin="1dp"
         android:id="@+id/friendsProfile_oneFriend_relativeLayout">
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/friendsProfile_oneFriend_profileImage"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:layout_margin="2dp"
-            android:id="@+id/friendsProfile_oneFriend_profileImage"/>
+            app:civ_border_color="#FFFFFF"
+            app:civ_border_width="1dp"
+            app:civ_shadow="true"
+            app:civ_shadow_color="#3f51b5"
+            app:civ_shadow_radius="5dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="12dp"
-            android:textSize="25dp"
-            android:textStyle="italic"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="18dp"
+            android:textSize="18dp"
             android:layout_toRightOf="@+id/friendsProfile_oneFriend_profileImage"
             android:id="@+id/friendsProfile_oneFriend_username"/>
 

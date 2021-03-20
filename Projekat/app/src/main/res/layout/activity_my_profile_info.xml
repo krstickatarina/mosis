@@ -22,32 +22,78 @@
             android:text="@string/profile_friends_text" />
     </TableRow>
 
-    <TextView
-        android:id="@+id/profile_username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="22dp"
-        android:layout_marginTop="12dp"
-        android:text="lejdidzu"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_image" />
+    <LinearLayout
+        android:id="@+id/profile_info_container"
+        android:layout_width="match_parent"
+        android:layout_height="148dp"
+        android:background="@android:color/white"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/buttons">
 
-    <com.mikhaellopez.circularimageview.CircularImageView
-        android:layout_width="130dp"
-        android:layout_height="150dp"
-        android:id="@+id/profile_image"
-        android:layout_marginStart="17dp"
-        android:layout_marginTop="15dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttons"
-        app:civ_border_color="#FFFFFF"
-        app:civ_border_width="1dp"
-        app:civ_shadow="true"
-        app:civ_shadow_radius="5dp"
-        app:civ_shadow_color="#3f51b5"/>
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/profile_image"
+            android:layout_width="130dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="17dp"
+            app:civ_border_color="#FFFFFF"
+            app:civ_border_width="1dp"
+            app:civ_shadow="true"
+            app:civ_shadow_color="#3f51b5"
+            app:civ_shadow_radius="5dp" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="20dp"
+            android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/profile_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="lejdidzu"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/profile_champ_image"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="10dp"
+                    app:srcCompat="@drawable/ic_outline_emoji_events_24_black" />
+
+                <TextView
+                    android:id="@+id/profile_points_fixed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="13dp"
+                    android:text="@string/profile_points_text"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/profile_points"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="13dp"
+                    android:text="300"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/profile_first_name"
@@ -57,7 +103,7 @@
         android:layout_marginTop="35dp"
         android:text="Julija"
         app:layout_constraintStart_toEndOf="@+id/profile_first_name_fixed"
-        app:layout_constraintTop_toBottomOf="@+id/profile_username" />
+        app:layout_constraintTop_toBottomOf="@+id/profile_info_container" />
 
     <TextView
         android:id="@+id/profile_last_name"
@@ -117,7 +163,7 @@
         android:layout_marginTop="35dp"
         android:text="@string/profile_first_name_text"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_username" />
+        app:layout_constraintTop_toBottomOf="@+id/profile_info_container" />
 
     <TextView
         android:id="@+id/profile_last_name_fixed"
@@ -159,33 +205,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_email_fixed" />
 
-    <TextView
-        android:id="@+id/profile_points_fixed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="10dp"
-        android:text="@string/profile_points_text"
-        app:layout_constraintStart_toEndOf="@+id/profile_image"
-        app:layout_constraintTop_toBottomOf="@+id/profile_champ_image" />
-
-    <TextView
-        android:id="@+id/profile_points"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="10dp"
-        android:text="300"
-        app:layout_constraintStart_toEndOf="@+id/profile_points_fixed"
-        app:layout_constraintTop_toBottomOf="@+id/profile_champ_image" />
-
-    <ImageView
-        android:id="@+id/profile_champ_image"
-        android:layout_width="81dp"
-        android:layout_height="55dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="40dp"
-        app:layout_constraintStart_toEndOf="@+id/profile_image"
-        app:layout_constraintTop_toBottomOf="@+id/buttons"
-        app:srcCompat="@drawable/ic_outline_emoji_events_24" />
 </androidx.constraintlayout.widget.ConstraintLayout>
