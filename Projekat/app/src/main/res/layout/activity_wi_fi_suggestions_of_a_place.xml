@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="Deny all"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="30dp"
         android:layout_below="@+id/wiFiSuggestions_textView"
         android:id="@+id/wiFiSuggestions_denyAllButton"/>
 
