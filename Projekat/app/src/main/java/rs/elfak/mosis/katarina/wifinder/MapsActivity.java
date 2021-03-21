@@ -195,7 +195,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         showMyLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentUserLocation.getLatitude(), currentUserLocation.getLongitude()), 16));
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentUserLocation.getLatitude(), currentUserLocation.getLongitude()), 10));
             }
         });
 
@@ -786,9 +786,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 {
                     for(DataSnapshot s: snapshot.getChildren())
                     {
-                        Toast.makeText(MapsActivity.this, ""+s, Toast.LENGTH_SHORT).show();
                         relativeLayoutForSearchingPlace.setVisibility(View.GONE);
-                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(s.getValue(WiFiPassword.class).getLocation().getLatitude(), s.getValue(WiFiPassword.class).getLocation().getLongitude()), 16));
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(s.getValue(WiFiPassword.class).getLocation().getLatitude(), s.getValue(WiFiPassword.class).getLocation().getLongitude()), 10));
                     }
                 }
                 else
