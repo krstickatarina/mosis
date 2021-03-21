@@ -49,7 +49,7 @@ public class AddNewObjectOnMapActivity extends AppCompatActivity {
         editTextPassword = findViewById(R.id.editText_passwordSuggestion);
         btnAddObject = findViewById(R.id.btn_addNewObject);
 
-        btnAddObject.setBackgroundColor(Color.GRAY);
+        //btnAddObject.setBackgroundColor(Color.GRAY);
 
         fAuth = FirebaseAuth.getInstance();
         currentUserID = fAuth.getCurrentUser().getUid();

@@ -1,35 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="5dp"
+    android:background="@drawable/rang_rounded_corners"
     android:layout_height="wrap_content"
     android:id="@+id/findFriends_usersLinearLayout"
     android:orientation="horizontal">
 
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:id="@+id/findFriends_usersProfileImage"
         android:layout_margin="5dp"
-        android:id="@+id/findFriends_usersProfileImage"/>
+        app:civ_border_color="#FFFFFF"
+        app:civ_border_width="1dp"
+        app:civ_shadow="true"
+        app:civ_shadow_radius="5dp"
+        app:civ_shadow_color="#3f51b5"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_margin="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:id="@+id/findFriends_usersName"/>
+            android:id="@+id/findFriends_usersName"
+            android:textStyle="bold"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:id="@+id/findFriends_usersUserame"/>
+            android:id="@+id/findFriends_usersUserame"
+            android:textStyle="italic"/>
 
     </LinearLayout>
 

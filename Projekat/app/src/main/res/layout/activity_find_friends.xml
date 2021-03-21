@@ -13,23 +13,41 @@
         android:layout_margin="20dp"
         android:id="@+id/findFriends_relativeLayout">
 
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/findFriends_findFriends_textView"
-            android:layout_marginTop="10dp"
-            android:layout_centerHorizontal="true"
-            android:textSize="30dp"
-            android:textStyle="bold"
-            android:text="Find friends"/>
+            android:orientation="horizontal"
+            android:id="@+id/find_friends_title"
+            android:textAlignment="center"
+            android:layout_centerHorizontal="true">
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="10dp"
+                app:srcCompat="@drawable/ic_baseline_people_outline_24" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/findFriends_findFriends_textView"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_centerHorizontal="true"
+                android:textColor="@android:color/white"
+                android:textSize="25dp"
+                android:textStyle="bold"
+                android:text="Find friends"/>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_margin="15dp"
             android:orientation="horizontal"
             android:layout_centerHorizontal="true"
-            android:layout_below="@+id/findFriends_findFriends_textView"
+            android:layout_below="@+id/find_friends_title"
             android:id="@+id/findFriends_relativeLayoutSearch">
 
             <EditText
@@ -40,8 +58,8 @@
                 android:id="@+id/findFriends_searchFriend_editText"/>
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_marginTop="10dp"
                 android:layout_toLeftOf="@+id/findFriends_searchFriend_editText"
                 android:id="@+id/findFriends_searchFriend_imageButton"

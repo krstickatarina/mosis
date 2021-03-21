@@ -12,22 +12,26 @@
         android:layout_height="wrap_content"
         android:id="@+id/notifications_firstRelativeLayout"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="35dp">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_baseline_notifications_none_24"
+            android:id="@+id/notification_image"
+            android:layout_marginTop="2dp"
+            />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:textStyle="bold"
-            android:textSize="20dp"
-            android:text="Your friend requests"
-            android:id="@+id/notifications_friendRequests_textView"/>
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_notifications_24"
-            android:layout_marginLeft="2dp"
-            android:layout_toRightOf="@+id/notifications_friendRequests_textView"/>
+            android:textColor="@android:color/white"
+            android:textSize="25dp"
+            android:text="Notifications"
+            android:id="@+id/notifications_friendRequests_textView"
+            android:layout_toRightOf="@+id/notification_image"/>
 
     </RelativeLayout>
 
@@ -35,7 +39,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@drawable/rounded_corners"
         android:layout_margin="25dp"
         android:id="@+id/notifications_secondRelativeLayout"
         android:layout_below="@+id/notifications_firstRelativeLayout">
@@ -43,7 +47,6 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
             android:id="@+id/notifications_thirdRelativeLayout"
             android:layout_margin="3dp">
 

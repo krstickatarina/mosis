@@ -61,7 +61,7 @@ public class NotificationsFriendRequestsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         relativeLayout = findViewById(R.id.notifications_secondRelativeLayout);
-        relativeLayout.setBackgroundColor(Color.parseColor("#FFFF66"));
+        //relativeLayout.setBackgroundColor(Color.parseColor("#FFFF66"));
         recyclerView = findViewById(R.id.recyclerViewNotifications);
 
         currentUsersID = FirebaseAuth.getInstance().getCurrentUser().getUid();

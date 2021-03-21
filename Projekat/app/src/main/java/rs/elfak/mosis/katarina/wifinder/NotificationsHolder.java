@@ -28,6 +28,6 @@ public class NotificationsHolder extends RecyclerView.ViewHolder {
         acceptFriendRequest = itemView.findViewById(R.id.oneNotification_acceptRequest);
         declineFriendRequest = itemView.findViewById(R.id.oneNotification_declineFriendRequest);
 
-        relativeLayout1.setBackgroundColor(Color.parseColor("#FFFF66"));
+        //relativeLayout1.setBackgroundColor(Color.parseColor("#FFFF66"));
     }
 }

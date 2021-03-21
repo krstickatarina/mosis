@@ -137,9 +137,9 @@
 
     <ImageView
         android:id="@+id/friends_profile_search_button"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="108dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="122dp"
         app:layout_constraintStart_toEndOf="@+id/friends_profile_search_friends"
         app:layout_constraintTop_toBottomOf="@+id/friends_profile_points_fixed"
         app:srcCompat="@drawable/ic_baseline_search_24" />

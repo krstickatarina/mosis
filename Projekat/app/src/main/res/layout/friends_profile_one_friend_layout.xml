@@ -8,14 +8,12 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/rang_rounded_corners"
-        android:layout_margin="1dp"
         android:id="@+id/friendsProfile_oneFriend_relativeLayout">
 
         <com.mikhaellopez.circularimageview.CircularImageView
             android:id="@+id/friendsProfile_oneFriend_profileImage"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_margin="2dp"
             app:civ_border_color="#FFFFFF"
             app:civ_border_width="1dp"
@@ -27,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="20dp"
             android:textSize="18dp"
             android:layout_toRightOf="@+id/friendsProfile_oneFriend_profileImage"
             android:id="@+id/friendsProfile_oneFriend_username"/>

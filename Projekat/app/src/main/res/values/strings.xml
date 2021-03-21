@@ -18,7 +18,7 @@
     <string name="profile_phone_text"><b>Phone number:</b></string>
     <string name="profile_email_text"><b>E-mail address:</b></string>
     <string name="profile_password_text"><b>Password:</b></string>
-    <string name="profile_points_text"><b>Points:</b></string>
+    <string name="profile_points_text"><b>Tokens:</b></string>
     <string name="profile_friends_username_text"><b>Username:</b></string>
     <string name="friends_profile_check"><i>Friends</i></string>
     <string name="edit_profile_text">Edit profile</string>
