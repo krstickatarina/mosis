@@ -432,7 +432,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void showUserOnTheMap(User value, String key)
     {
         Marker marker = mMap.addMarker(new MarkerOptions().position(new LatLng(value.getMyLocation().getLatitude(), value.getMyLocation().getLongitude()))
-                                        .icon(formBitmapFromVector(getApplicationContext(), R.drawable.ic_baseline_person_pin_24)));
+                                        .icon(formBitmapFromVector(getApplicationContext(), R.drawable.ic_baseline_person_pin_in_color_24)));
         if(key.equals(currentUserID))
         {
             marker.setTitle("I am here!");
