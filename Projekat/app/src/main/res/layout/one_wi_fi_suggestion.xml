@@ -9,7 +9,8 @@
     <ImageView
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:layout_margin="5dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
         android:src="@drawable/ic_baseline_location_on_blue_24"
         android:id="@+id/oneWiFiSuggestion_imageView"/>
 
@@ -26,7 +27,7 @@
         android:id="@+id/oneWiFiSuggestion_textView"
         android:textSize="16dp"
         android:layout_marginTop="15dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="5dp"
         android:textStyle="italic"/>
 
     <RelativeLayout

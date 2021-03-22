@@ -14,7 +14,7 @@
         android:layout_marginBottom="0dp"
         android:id="@+id/wifi_image"
         android:src="@drawable/ic_outline_wifi_24"
-        android:layout_marginTop="17dp"
+        android:layout_marginTop="15dp"
         />
 
     <TextView
@@ -30,9 +30,9 @@
 
     <ImageView
         android:id="@+id/register_imageView"
-        android:layout_marginTop="15dp"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginHorizontal="60dp"
         android:layout_below="@+id/register_in"
         app:srcCompat="@android:drawable/ic_menu_gallery" />
@@ -44,7 +44,7 @@
         android:id="@+id/register_upload_photo"
         android:layout_marginHorizontal="45dp"
         android:text="Upload photo"
-        android:layout_marginTop="3dp"/>
+        android:layout_marginTop="2dp"/>
 
     <EditText
         android:layout_width="match_parent"

@@ -14,8 +14,8 @@
         android:id="@+id/oneNotification_secondRelativeLayout">
 
         <com.mikhaellopez.circularimageview.CircularImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:id="@+id/oneNotification_usersProfileImage"
             android:layout_margin="3dp"
             app:civ_border_color="#FFFFFF"
@@ -35,7 +35,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:id="@+id/oneNotification_sentFriendRequest"
             android:layout_toRightOf="@+id/oneNotification_usersProfileImage"
             android:layout_below="@+id/oneNotification_usersUsername"
@@ -52,7 +52,7 @@
         <ImageView
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="25dp"
             android:layout_marginStart="10dp"
             android:id="@+id/oneNotification_acceptRequest"
             android:layout_toRightOf="@+id/oneNotification_usersUsername"
@@ -61,7 +61,7 @@
         <ImageView
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="25dp"
             android:layout_marginStart="5dp"
             android:id="@+id/oneNotification_declineFriendRequest"
             android:layout_toRightOf="@+id/oneNotification_acceptRequest"
