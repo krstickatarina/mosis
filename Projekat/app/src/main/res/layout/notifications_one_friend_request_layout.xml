@@ -53,9 +53,9 @@
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_marginTop="25dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="30dp"
             android:id="@+id/oneNotification_acceptRequest"
-            android:layout_toRightOf="@+id/oneNotification_usersUsername"
+            android:layout_toRightOf="@+id/oneNotification_sentFriendRequest"
             android:src="@drawable/ic_baseline_check_24"/>
 
         <ImageView

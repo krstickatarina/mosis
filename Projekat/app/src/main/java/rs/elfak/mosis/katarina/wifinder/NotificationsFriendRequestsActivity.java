@@ -98,7 +98,7 @@ public class NotificationsFriendRequestsActivity extends AppCompatActivity {
         adapter = new FirebaseRecyclerAdapter<User, NotificationsHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull NotificationsHolder holder, int position, @NonNull User model) {
-                holder.usersUsername.setText(model.getFirstName()+" "+model.getLastName()+"    @"+model.getUsername());
+                holder.usersUsername.setText("@"+model.getUsername());
                 holder.usersID.setText(getRef(position).getKey());
                 String user2ID = getRef(position).getKey();
                 User user2 = model;
