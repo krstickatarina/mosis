@@ -144,7 +144,7 @@ public class WiFiSuggestionsOfAPlaceActivity extends AppCompatActivity {
                                             if(s.getValue(WiFiPasswordSuggestion.class).getLocation().getLatitude() == latitude &&
                                             s.getValue(WiFiPasswordSuggestion.class).getLocation().getLongitude() == longitude)
                                             {
-                                                FirebaseDatabase.getInstance().getReference().child("WifiPasswords").child(s.getKey()).setValue(new WiFiPassword(model.getName(), model.getLocation(), model.getWiFiPasswordSuggestion(), model.getUserSuggesterID()));
+                                                acceptThisWiFiPassword(model, s.getKey());
                                                 b = false;
                                             }
                                         }
@@ -152,8 +152,7 @@ public class WiFiSuggestionsOfAPlaceActivity extends AppCompatActivity {
                                     if(b)
                                     {
                                         keyOfAPlace = FirebaseDatabase.getInstance().getReference().child("WifiPasswords").push().getKey();
-                                        FirebaseDatabase.getInstance().getReference().child("WifiPasswords").child(keyOfAPlace).setValue(new WiFiPassword(model.getName(), model.getLocation(), model.getWiFiPasswordSuggestion(), model.getUserSuggesterID()));
-                                        //deleteAllWiFiSuggestionsOnSameLocation();
+                                        acceptThisWiFiPassword(model, keyOfAPlace);
                                     }
                                 }
 
@@ -228,6 +227,35 @@ public class WiFiSuggestionsOfAPlaceActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private WiFiPassword acceptThisWiFiPassword(WiFiPasswordSuggestion model, String id)
+    {
+        WiFiPassword wiFiPassword = new WiFiPassword(model.getName(), model.getLocation(), model.getWiFiPasswordSuggestion(), model.getUserSuggesterID());
+        FirebaseDatabase.getInstance().getReference().child("Friendships").child(model.getUserSuggesterID()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists())
+                {
+                    //boolean p = true;
+                    for(DataSnapshot d:snapshot.getChildren())
+                    {
+                        wiFiPassword.getUsersThatKnowsThisPasswordID().add(d.getKey());
+                    }
+                    //if(p)
+                    //{
+                        FirebaseDatabase.getInstance().getReference().child("WifiPasswords").child(id).setValue(wiFiPassword);
+                    //    p=false;
+                    //}
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        return null;
     }
 
     @Override
