@@ -22,7 +22,8 @@ import com.google.firebase.database.ValueEventListener;
 
 public class EditMyProfileInfoActivity extends AppCompatActivity {
 
-    EditText newUsername, newFirstName, newLastName, newPhoneNumber, email, password;
+    EditText newUsername, newFirstName, newLastName, newPhoneNumber, email;
+    String password;
     Button save, cancel;
     String currentUsersID;
     DatabaseReference usersReference;
@@ -41,14 +42,14 @@ public class EditMyProfileInfoActivity extends AppCompatActivity {
         newLastName = findViewById(R.id.edit_lastname);
         newPhoneNumber = findViewById(R.id.edit_phone);
         email = findViewById(R.id.edit_email);
-        password = findViewById(R.id.edit_password);
+        //password = findViewById(R.id.edit_password);
         save = findViewById(R.id.edit_profile_finished_button);
         cancel = findViewById(R.id.edit_profile_cancel_button);
 
         email.setEnabled(false);
         email.setFocusable(false);
-        password.setEnabled(false);
-        password.setFocusable(false);
+        //password.setEnabled(false);
+        //password.setFocusable(false);
 
         currentUsersID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         usersReference = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUsersID);
@@ -63,7 +64,7 @@ public class EditMyProfileInfoActivity extends AppCompatActivity {
                     newLastName.setText(snapshot.getValue(User.class).getLastName());
                     newPhoneNumber.setText(snapshot.getValue(User.class).getPhoneNumber());
                     email.setText(snapshot.getValue(User.class).getEmailAddress());
-                    password.setText(snapshot.getValue(User.class).getPassword());
+                    password = snapshot.getValue(User.class).getPassword();
                     numberOfTokens = snapshot.getValue(User.class).getNumberOfTokens();
                 }
             }
@@ -87,7 +88,7 @@ public class EditMyProfileInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 User user = new User(newFirstName.getText().toString(), newLastName.getText().toString(), newUsername.getText().toString(),
-                                    email.getText().toString(), password.getText().toString(), newPhoneNumber.getText().toString(),
+                                    email.getText().toString(), password, newPhoneNumber.getText().toString(),
                                     numberOfTokens);
                 usersReference.setValue(user);
                 Toast.makeText(EditMyProfileInfoActivity.this, "Changes successfully saved!", Toast.LENGTH_SHORT).show();

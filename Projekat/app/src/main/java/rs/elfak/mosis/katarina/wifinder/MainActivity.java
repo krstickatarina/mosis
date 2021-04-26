@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String emailAddressString = emailAddress.getText().toString();
+                password.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 String passwordString = password.getText().toString();
                 if(!emailAddressString.isEmpty() && !passwordString.isEmpty())
                 {

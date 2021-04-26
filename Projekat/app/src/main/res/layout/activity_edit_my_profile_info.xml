@@ -56,20 +56,20 @@
         android:layout_marginHorizontal="30dp"
         android:layout_below="@+id/edit_phone"/>
 
-    <EditText
+    <!-- <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/edit_profile_password"
         android:id="@+id/edit_password"
         android:layout_marginHorizontal="30dp"
-        android:layout_below="@+id/edit_email"/>
+        android:layout_below="@+id/edit_email"/> -->
 
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_marginHorizontal="30dp"
-        android:layout_below="@+id/edit_password">
+        android:layout_below="@+id/edit_email">
         <Button
             android:id="@+id/edit_profile_finished_button"
             android:layout_weight="1"

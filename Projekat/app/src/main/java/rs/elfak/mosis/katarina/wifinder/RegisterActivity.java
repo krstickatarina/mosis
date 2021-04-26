@@ -14,6 +14,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -98,6 +99,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String lastNameString = lastName.getText().toString();
                 String usernameString = username.getText().toString();
                 String emailAddressString = emailAddress.getText().toString();
+                password.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 String passwordString = password.getText().toString();
                 String phoneNumberString = phoneNumber.getText().toString();
 

@@ -69,7 +69,7 @@ public class MyProfileInfoActivity extends AppCompatActivity {
         lastName = findViewById(R.id.profile_last_name);
         phoneNumber = findViewById(R.id.profile_phone);
         emailAddress = findViewById(R.id.profile_email);
-        password = findViewById(R.id.profile_password);
+        //password = findViewById(R.id.profile_password);
         numberOfTokens = findViewById(R.id.profile_points);
 
         profileInfo.setBackgroundColor(Color.parseColor("#8A2BE2"));
@@ -112,7 +112,7 @@ public class MyProfileInfoActivity extends AppCompatActivity {
                     lastName.setText(snapshot.getValue(User.class).getLastName());
                     phoneNumber.setText(snapshot.getValue(User.class).getPhoneNumber());
                     emailAddress.setText(snapshot.getValue(User.class).getEmailAddress());
-                    password.setText(snapshot.getValue(User.class).getPassword());
+                    //password.setText(snapshot.getValue(User.class).getPassword());
                     numberOfTokens.setText(String.valueOf(-1*snapshot.getValue(User.class).getNumberOfTokens()));
                 }
             }

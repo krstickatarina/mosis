@@ -91,6 +91,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/password"
+        android:inputType="textPassword"
         android:layout_marginHorizontal="30dp"
         android:layout_below="@+id/register_phonenumber"
         android:id="@+id/register_password"/>
